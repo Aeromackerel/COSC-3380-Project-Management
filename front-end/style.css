@@ -1,0 +1,136 @@
+body
+{
+   margin:0;
+   padding:0;
+   background-color:#e0e0e0;
+}
+p,h1,a,.ui-textfield,.ui-button{
+  font-family:"Arial",sans-serif;
+}
+#footer>p{
+	font-size:13px;
+	padding:0;
+	margin:0 0 1px 0;
+	color:#888888;
+}
+#footer>p:hover{color:#4caf50;}
+#footer>p:active{color:#6ccf70;}
+.ui-container{
+   background-color:#ffffff;
+   border-radius:25px;
+}
+#header{
+	margin:10px;
+	margin-bottom:35px;
+	margin-top:0;
+	padding:5px;
+	padding-left:25px;
+	padding-top:2px;
+	padding-bottom:3px;
+	border-radius:0px 0px 25px 25px;
+}
+#header-title{
+	color:#888888;
+}
+#login-container{
+   margin:auto;
+   padding:25px 10px;
+   width:40%;
+}
+#register-container{
+   margin:auto;
+   padding:25px 10px;
+   width:70%;
+}
+.ui-textfield{
+   margin:auto;
+   width:50%;
+   margin-bottom:15px;
+   height:34px;
+   border:1px solid #e0e0e0;
+   border-radius:10px;
+   text-align:center;
+   color:#a0a0a0;
+}
+.ui-textfield:hover{
+}
+.ui-textfield{
+  -webkit-transition-duration:0.4s;
+  transition-duration:0.4s;
+}
+::-webkit-input-placeholder{
+   color:#a0a0a0;
+   font-size:16px;
+}
+::-moz-placeholder{
+   color:#a0a0a0;
+   font-size:16px;
+}
+:-ms-input-placeholder{
+   color:#a0a0a0;
+   font-size:16px;
+}
+:-moz-placeholder{
+   color:#a0a0a0;
+   font-size:16px;
+}
+.ui-button{
+   background-color:#b0b0b0;
+   padding:12px 25px;
+   margin:0px;
+   border:none;
+   color:#ffffff;
+   text-align:center;
+   text-decoration:none;
+   display:inline-block;
+   font-size:16px;
+   border-radius:10px;
+}
+.ui-button{
+  -webkit-transition-duration:0.4s;
+  transition-duration:0.4s;
+}
+.ui-button:hover{background-color:#4caf50;}
+.ui-button:active{background-color:#6ccf70;}
+a{color:#a0a0a0;}
+#footer{
+	margin:0;
+	width:100%;
+	padding:10px 10px 10px 20px;
+	position:fixed;
+	bottom:0;
+	border-radius:0;
+}
+.nav-hover{
+   background-color:#ffffff;
+   color:#a0a0a0;
+   padding:16px;
+   font-size:20px;
+   border:none;
+}
+.nav{
+   position:relative;
+   display:inline-block;
+}
+.nav-links{
+   display:none;
+   position:absolute;
+   background-color:#ffffff;
+   min-width:160px;
+   box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+   z-index:1;
+   border-radius:0px 0px 25px 25px;
+}
+.nav-links a{
+   color:#888888;
+   padding:12px 16px;
+   text-decoration:none;
+   display:block;
+}
+.nav-links a:hover{
+	background-color:#4caf50;
+	color:#ffffff;
+}
+.nav-links a:active{background-color:#6ccf70;}
+.nav:hover .nav-links{display:block;}
+.nav:hover .nav-hover{background-color:#ffffff;}
