@@ -19,6 +19,7 @@
 		<center>
 			<form action="register.php" method="post">
 				<input class="ui-textfield" type="text" name="fname" placeholder="First name">
+				<input class="ui-textfield" type="text" name="mIntial" placeholder="Middle initial if applicable"><br>
 				<input class="ui-textfield" type="text" name="lname" placeholder="Last name"><br>
 				<input class="ui-textfield" type="text" name="email" placeholder="Email"><br>
 				<input class="ui-textfield" type="text" name="phonenumber" placeholder="Phone-number"><br>
@@ -42,6 +43,7 @@
 	if (isset($_POST['submit-button']))
 	{
 		$firstName = $_POST['fname'];
+		$middleInitial = $_POST['mIntial'];
 		$lastName = $_POST['lname'];
 		$email = $_POST['email'];
 		$phoneNumber = $_POST['phonenumber'];
@@ -51,6 +53,7 @@
 
 		/* Strips the backspaces just in case if the user entered any backspaces */
 		$firstName = stripslashes($firstName);
+		$middleInitial = stripcslashes($middleInitial);
 		$lastName = stripslashes($lastName);
 		$email = stripslashes($email);
 		$phoneNumber = stripslashes($phoneNumber);
@@ -104,8 +107,8 @@
 
 
 		if ($passwordOne == $passwordTwo){
-		$sql = "INSERT INTO Employees (firstName, lastName, email, phonenumber, role)
-		VALUES ('$firstName', '$lastName', '$email', '$phoneNumber', 1)";
+		$sql = "INSERT INTO Employees (firstName, middleInitial, lastName, email, phonenumber, role)
+		VALUES ('$firstName','$middleInitial' , '$lastName', '$email', '$phoneNumber', 1)";
 		$conn->exec($sql);
 		$user_insert_ID = $conn->lastInsertId();
 
