@@ -26,7 +26,8 @@
 				<input class="ui-textfield" type="password" name="password1" placeholder="Re-enter Password"><br>
 				<input class="ui-button" type="submit" name = "submit-button" value="Register">
 			</form>
-			<a href="login.html">Login</a>
+					</br>
+			<a href="login.php">Login</a>
 		</center>
 	</div>	
 
@@ -59,6 +60,47 @@
 		try{
 		$conn = new PDO( "sqlsrv:server=$serverName;Database = $databaseName", $userID, $password);
 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+
+		// We should check whether the fields are empty - if it is then we'll kill the connection to the SQL server
+
+		if (!isset($firstName) || trim($firstName) == '')
+		{
+			header("Location: ../register.php?signup=missing_first_name");
+			die();
+		}
+
+		if (!isset($lastName) || trim($lastName) == '')
+		{
+			header("Location: ../register.php?signup=missing_last_name");
+			die();
+		}
+
+		if (!isset($email) || trim($email) == '')
+		{
+			header("Location: ../register.php?signup=missing_email");
+			die();
+		}
+
+		if (!isset($phoneNumber) || trim($phoneNumber) == '')
+		{
+			header("Location: ../register.php?phoneNumber=missing");
+			die();
+		}
+
+		if (!isset($passwordOne) || trim($passwordOne) == '' || !isset($passwordTwo) || trim($passwordTwo) == '')
+		{
+			header("Location ../register.php?password=missing");
+			die();
+		}
+
+
+		// We should check whether an email is valid
+
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			header("Location: ../register.php?email_not_valid");
+			die();
+		}
 
 
 		if ($passwordOne == $passwordTwo){

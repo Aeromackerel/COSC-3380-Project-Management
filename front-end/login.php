@@ -19,10 +19,15 @@
 				<input class="ui-textfield" type="text" name="username" placeholder="email"><br>
 				<input class="ui-textfield" type="password" name="password" placeholder="password"><br>
 				<input class="ui-button" type="submit" name ="submit-button" value="Login">
+			</br>
 			</form>
-			<a href="register.html">register</a>
+			<a href="register.html">Register</a>
+		</br>
+			<a href="account.html">Forgot password</a>
 		</center>
 	</div>	
+</body>
+
 
 <!---------- PHP Section ------------->
 	<?php
@@ -40,6 +45,7 @@
 		$user = stripslashes($user);
 		$passwordEntered = stripslashes($passwordEntered);
 
+
 		try{
 		$conn = new PDO( "sqlsrv:server=$serverName;Database = $databaseName", $userID, $password);
 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -48,13 +54,21 @@
 		
 		$result = $conn->query($sql);
 
-		if ($result->fetchColumn() > 0 ){echo "You've been successfully logged on.";}
+		if ($result->fetchColumn() > 0 )
+		{
+			$_SESSION['loggedin'] = true;
+			$_SESSION['username']
+		}
 		else {echo "Failed to log you in - Invalid username or password";}
 
 		}
 
 		catch(PDOException $e)
 	    {echo $sql . "<br>" . $e->getMessage();}
+	    //if pw coorect
+	    //$_SESSION["username"]=sql.get user name
+
+	    //log out
 
 	}
 
