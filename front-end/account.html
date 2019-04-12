@@ -1,14 +1,15 @@
-<title>login</title>
+<title>Reset your password</title>
+<p>An email will be sent to your email. You'll be able to reset your password through this email. </p>
 <link rel="stylesheet"type="text/css"href="style.css">
 <body>
 	<div id="login-container" class="ui-container">
 		<center>
-			<form action="account.php" method="post">
-				<input class="ui-textfield" type="text" name="email" placeholder="email"><br>
-				<input class="ui-button" type="submit" value="Submit">
+			<form action="includes/reset-request.inc.php" method="post">
+				<input class="ui-textfield" type="text" name="email" placeholder="Please enter your email"><br>
+				<input class="ui-button" name="reset-button" type="submit" value="Submit">
 			</form>
-			<a href="login.html">login</a>
-			<a href="register.html">register</a>
+			<a href="login.php">Login</a>
+			<a href="register.php">Register</a>
 		</center>
 	</div>	
 </body>

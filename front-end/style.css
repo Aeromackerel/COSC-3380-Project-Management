@@ -4,7 +4,7 @@ body
    padding:0;
    background-color:#e0e0e0;
 }
-p,h1,a,.ui-textfield,.ui-button{
+p,h1,a,.ui-textfield,.ui-button,tr,th{
   font-family:"Arial",sans-serif;
 }
 #footer>p{
@@ -34,11 +34,13 @@ p,h1,a,.ui-textfield,.ui-button{
 }
 #login-container{
    margin:auto;
+   margin-top:40px;
    padding:25px 10px;
    width:40%;
 }
 #register-container{
    margin:auto;
+   margin-top:40px;
    padding:25px 10px;
    width:70%;
 }
@@ -107,6 +109,7 @@ a{color:#a0a0a0;}
    padding:16px;
    font-size:20px;
    border:none;
+   border-radius:25px 25px 0px 0px;
 }
 .nav{
    position:relative;
@@ -134,3 +137,37 @@ a{color:#a0a0a0;}
 .nav-links a:active{background-color:#6ccf70;}
 .nav:hover .nav-links{display:block;}
 .nav:hover .nav-hover{background-color:#ffffff;}
+#ui-timesheet{
+	margin:auto;
+	width:90%;
+}
+#ui-timesheet>table{
+	padding:10px;
+	background-color:#ffffff;
+	width:100%;
+	border-radius:25px;
+}
+#ui-timesheet th{
+	font-size:20px;
+	color:#a0a0a0;
+}
+#ui-timesheet tr{
+	text-align:center;
+	font-size:16px;
+	color:#a0a0a0;
+}
+.timesheet-select{
+	margin-left:50px;
+}
+#homelink{
+	padding:10px;
+	background-color:#ffffff;
+	margin:55px;
+	margin-left:25px;
+}
+#applink{
+	padding:30px;
+	background-color:#ffffff;
+	margin:55px;
+	margin-top:100px;
+}

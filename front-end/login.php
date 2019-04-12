@@ -7,7 +7,7 @@
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="home.html">home</a>
+				<a href="home.php">home</a>
 				<a href="login.php">login</a>
 				<a href="register.php">register</a>
 			</div>
@@ -57,7 +57,7 @@
 		if ($result->fetchColumn() > 0 )
 		{
 			$_SESSION['loggedin'] = true;
-			$_SESSION['username']
+			$_SESSION['emailUser'] = '$user';
 		}
 		else {echo "Failed to log you in - Invalid username or password";}
 
@@ -73,8 +73,6 @@
 	}
 
 	?>
-
-
 
 
 	<div id="footer" class="ui-container">
