@@ -57,7 +57,7 @@
 		if ($result->fetchColumn() > 0 )
 		{
 			$_SESSION['loggedin'] = true;
-			$_SESSION['emailUser'] = '$user';
+			$_SESSION['userID'] = '$result';
 		}
 		else {echo "Failed to log you in - Invalid username or password";}
 
