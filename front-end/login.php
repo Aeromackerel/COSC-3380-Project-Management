@@ -23,7 +23,7 @@
 			</form>
 			<a href="register.php">Register</a>
 		</br>
-			<a href="account.php">Forgot password</a>
+			<a href="account.html">Forgot password</a>
 		</center>
 	</div>	
 </body>

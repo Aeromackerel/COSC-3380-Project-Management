@@ -1,8 +1,13 @@
 <?php
-session_start();
-// Use  the session to keep track of the user's ID
 
-$_SESSION['userID'] = $userIDloggedIN;
+session_start();
+
+// If user isn't logged in then they will be redirected back to the log in page.
+
+if (!$_SESSION['loggedin']) 
+{header ("Location: ../login.php");}
+
+$tempUserID = $_SESSION['userID'];
 
 ?>
 
