@@ -107,8 +107,8 @@
 
 
 		if ($passwordOne == $passwordTwo){
-		$sql = "INSERT INTO Employees (firstName, middleInitial, lastName, email, phonenumber, role)
-		VALUES ('$firstName','$middleInitial' , '$lastName', '$email', '$phoneNumber', 1)";
+		$sql = "INSERT INTO Employees (firstName, middleInitial, lastName, email, phonenumber, role, deleteFlagStatus)
+		VALUES ('$firstName','$middleInitial' , '$lastName', '$email', '$phoneNumber', 1, 0)";
 		$conn->exec($sql);
 		$user_insert_ID = $conn->lastInsertId();
 

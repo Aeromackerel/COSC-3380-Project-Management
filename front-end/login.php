@@ -21,9 +21,9 @@
 				<input class="ui-button" type="submit" name ="submit-button" value="Login">
 			</br>
 			</form>
-			<a href="register.html">Register</a>
+			<a href="register.php">Register</a>
 		</br>
-			<a href="account.html">Forgot password</a>
+			<a href="account.php">Forgot password</a>
 		</center>
 	</div>	
 </body>
@@ -50,15 +50,28 @@
 		$conn = new PDO( "sqlsrv:server=$serverName;Database = $databaseName", $userID, $password);
 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
-		$sql = "SELECT userID FROM Users WHERE email = '$user' AND password = '$passwordEntered'";
+		$sql = "SELECT userID FROM Users WHERE email = ? AND password = ?";
 		
-		$result = $conn->query($sql);
+		$result = $conn->prepare($sql);
+		$result->execute(array($user, $passwordEntered));
 
-		if ($result->fetchColumn() > 0 )
+		// Temporary variable to hold the userID - couldn't find a better way to hold this (Bad logic, I know)
+
+		$temp = $result->fetchColumn();
+
+		if ($temp > 0)
 		{
+			session_start();
 			$_SESSION['loggedin'] = true;
-			$_SESSION['userID'] = '$result';
+			$_SESSION['userID'] = $temp;
+			echo $_SESSION['userID'];
+
+			// Redirects user to user page (for employees)
+			header("Location: /users/userIndex.php");
+			
+
 		}
+
 		else {echo "Failed to log you in - Invalid username or password";}
 
 		}
