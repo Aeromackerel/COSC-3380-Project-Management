@@ -1,3 +1,5 @@
+<!----- PHP Section - Checking if logged in ----->
+
 <?php
 
 session_start();
@@ -7,13 +9,17 @@ session_start();
 if (!$_SESSION['loggedin']) 
 {header ("Location: ../login.php");}
 
+// Temp variable to hold $userID
+
 $tempUserID = $_SESSION['userID'];
 
 ?>
 
 <title> Events Overview </title>
+<link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
+	<table class = "table">
 	<thead>
 			<tr>
 				<th> Event Name</th>
@@ -27,21 +33,29 @@ $tempUserID = $_SESSION['userID'];
 
 		<!----- DB Connection and Query ----->
 		<?php
+
+		// Connection to Database
+
 		include "../../includes/dbconnect.ini.php";
 
 		// Query for UserID related to the Event and display the data
-		$sqlOne = "SELECT eventName, description, location, startDateTime, endDateTime FROM Events LEFT JOIN eventUsers ON eventUsers.eventId = events.eventId WHERE eventUsers.userId = $userIDloggedIN";
+		$sqlOne = "SELECT eventName, description, location, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID";
 
-		try
-			{
-				$stmt = $conn->prepare($sqlOne);
-				$result = $stmt->execute();
-			}
 
-			catch(PDOException $ex)
-			{echo "Failed to run query". $ex->getMessage();}
+		// Querying and printing to the table
 
-			while ($row = $result->fetch(PDO::FETCH_ASSOC))
+		$stmt = $conn->query($sqlOne);
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+		{
+			echo "<tr><td>".$row['eventName']."</td>
+				<td>".$row['description']."</td>
+				<td>".$row['location']."</td>
+				<td>".$row['startDateTime']."</td>
+				<td>".$row['endDateTime']."</td>
+				</tr>"
+				;
+		}
+
 
 		?>
 
@@ -52,7 +66,7 @@ $tempUserID = $_SESSION['userID'];
 			<td><?php echo $row['description']; ?> </td>
 			<td><?php echo $row['location']; ?> </td>
 			<td><?php echo $row['startDateTime'];?> </td>
-			<td><?php echo $row['enDateTime'];?> </td>
+			<td><?php echo $row['endDateTime'];?> </td>
 		</tr>
 		</tbody>
 	</table>

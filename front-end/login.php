@@ -2,7 +2,7 @@
 
 <title>login</title>
 <link rel="stylesheet"type="text/css"href="style.css">
-<body>
+<body background= "images/workBG.jpg">
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>

@@ -1,3 +1,5 @@
+<!----- PHP Section ----->
+
 <?php
 session_start();
 
@@ -17,6 +19,12 @@ $tempUserID = $_SESSION['userID'];
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
+
+	<!---- Button to file for deletion flag ---->
+
+
+
+
 	<table class = "table">
 		<thead>
 			<tr>
@@ -43,6 +51,8 @@ $tempUserID = $_SESSION['userID'];
 
 			$sqlOne = "SELECT taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID";
 
+			// Prints to the table so what they have
+
 			$stmt = $conn->query($sqlOne);
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
@@ -51,7 +61,8 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['status']."</td>
 				<td>".$row['statusNotes']."</td>
 				<td>".$row['startDate']."</td>
-				<td>".$row['desiredEndDateTime']."</td>"
+				<td>".$row['desiredEndDateTime']."</td>
+				</tr>"
 				;
 			}
 
@@ -63,8 +74,6 @@ $tempUserID = $_SESSION['userID'];
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 <script> $(".table").dataTable(); </script>
-
-
 
 
 	<div id="footer" class="ui-container">

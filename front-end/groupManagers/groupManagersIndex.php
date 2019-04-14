@@ -25,10 +25,13 @@ if (!$_SESSION['loggedin'])
 			</div>
 		</div> 
 	</div>
-	<a id="applink" href="timesheet/01262019.html">timesheet</a>
+	<a id="applink" href="timesheet/01262019.html"> Timesheet</a>
+	<a id = "applink"> Timesheet approvals </a>
 	<a id="applink" href = "usersTaskView.php"> Tasks </a>
+	<a id = "applink"> Tasks Report </a>
 	<a id="applink" href = "usersEventsView.php"> Events </a>
 	<a id="applink" href = "usersGroupsView.php"> Groups </a>
+	<a id ="applink"> Projects</a>
 
 	<div id="footer" class="ui-container">
 		<p>footer link</p>

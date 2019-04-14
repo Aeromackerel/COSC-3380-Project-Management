@@ -2,13 +2,13 @@
 
 <title>Home Page</title>
 <link rel="stylesheet"type="text/css"href="style.css">
-<body>
+<body background= "images/workBG.jpg">
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="home.html">Home</a>
-				<a href="login.html">Login</a>
+				<a href="home.php">Home</a>
+				<a href="login.php">Login</a>
 				<a href="register.php">Register</a>
 			</div>
 		</div> 

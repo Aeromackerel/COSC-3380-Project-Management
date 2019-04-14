@@ -1,3 +1,5 @@
+<!----- PHP SECTION ----->
+
 <?php
 session_start();
 
@@ -5,6 +7,8 @@ session_start();
 
 if (!$_SESSION['loggedin']) 
 {header ("Location: ../login.php");}
+
+// Holds the userID
 
 $tempUserID = $_SESSION['userID'];
 ?>
@@ -14,11 +18,13 @@ $tempUserID = $_SESSION['userID'];
 <!DOCTYPE HTML>
 
 <title> Groups Overview </title>
+<link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
-<table>
+<table class = "table">
 		<thead>
 			<tr>
+				<th> Group Name </th>
 				<th> Group Member's ID</th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
@@ -33,11 +39,24 @@ $tempUserID = $_SESSION['userID'];
 		<?php
 		include "../../includes/dbconnect.ini.php";
 
+		// Query for initial Groups
+
+		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
+
+		$stmt = $conn->query($sqlOne);
+
+		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+		{
+
 		// Query for all groupmembers within a group and check for their
 
+		$sqlTwo = "SELECT firstName, lastName, phoneNumber, email, employeeId FROM Employees FULL OUTER JOIN ON GroupsUsers.employeeId = Employees.employeeId WHERE GroupsUsers.groupId = $row[groupId]";
 
+		}
 		?>
 
+	</tbody>
+</table>
 
 
 
