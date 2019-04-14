@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-if (!$_SESSION['loggedin']) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3) 
 {header ("Location: ../login.php");}
 
 
@@ -13,12 +13,12 @@ if (!$_SESSION['loggedin'])
 <!---- HTML Section ---->
 
 <!DOCTYPE HTML>
-<title>dashboard</title>
+<title>Dashboard</title>
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body background= "../images/workBG.jpg">
 	<div id="header" class="ui-container">
 		<div class="nav">
-		   <button class="nav-hover">menu</button>
+		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
 				<a href="timesheet/01262019.html">timesheet</a>
 				<a href="../actionLogOut.php">sign out</a>

@@ -18,9 +18,26 @@ $tempUserID = $_SESSION['userID'];
 <link rel = "stylesheet" href = "bootstrap.css">
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body>
+<body background = "../images/workBG.jpg">
+	<div id="header" class="ui-container">
+		<div class="nav">
+		   <button class="nav-hover">Menu</button>
+		   <div class="nav-links">
+				<a href="userIndex.php">Back to Index</a>
+				<a href="../actionLogOut.php">Sign out</a>
+			</div>
+		</div> 
+	</div>
 
-	<!---- Button to file for deletion flag ---->
+	<!---- Inline form for changes ---->
+	<form class = "form-inline">
+		<div class = "form-group">
+			<label for = "taskId"> taskId </label>
+			<input type = "taskId" class = form-control id = "taskIdChange">
+		</div>
+	</form>
+
+
 
 
 
@@ -28,6 +45,7 @@ $tempUserID = $_SESSION['userID'];
 	<table class = "table">
 		<thead>
 			<tr>
+				<th> Task ID </th>
 				<th> Task name </th>
 				<th> Description </th>
 				<th> Status </th>
@@ -49,14 +67,15 @@ $tempUserID = $_SESSION['userID'];
 
 			// Query for userID with the session email that we have from the session
 
-			$sqlOne = "SELECT taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID";
+			$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID";
 
 			// Prints to the table so what they have
 
 			$stmt = $conn->query($sqlOne);
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 			{
-				echo "<tr><td>".$row['taskName']."</td>
+				echo "<tr><td>".$row['taskId']."</td>
+				<td>".$row['taskName']."</td>
 				<td>".$row['description']."</td>
 				<td>".$row['status']."</td>
 				<td>".$row['statusNotes']."</td>
@@ -64,9 +83,9 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['desiredEndDateTime']."</td>
 				</tr>"
 				;
+
 			}
 
-			// Let's add a button to allow employee's to start a task
 
 			?>
 		</tbody>

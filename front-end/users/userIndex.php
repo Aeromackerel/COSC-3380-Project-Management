@@ -13,19 +13,19 @@ if (!$_SESSION['loggedin'])
 <!---- HTML Section ---->
 
 <!DOCTYPE HTML>
-<title>dashboard</title>
+<title>Dashboard</title>
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body background= "../images/workBG.jpg">
 	<div id="header" class="ui-container">
 		<div class="nav">
-		   <button class="nav-hover">menu</button>
+		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="timesheet/01262019.html">timesheet</a>
-				<a href="../actionLogOut.php">sign out</a>
+				<a href="../timesheets/01262019.html">Timesheet</a>
+				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div> 
 	</div>
-	<a id="applink" href="timesheet/01262019.html">timesheet</a>
+	<a id="applink" href="../timesheets/01262019.html">Timesheet</a>
 	<a id="applink" href = "usersTaskView.php"> Tasks </a>
 	<a id="applink" href = "usersEventsView.php"> Events </a>
 	<a id="applink" href = "usersGroupsView.php"> Groups </a>

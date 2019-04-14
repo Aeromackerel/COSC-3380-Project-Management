@@ -20,7 +20,16 @@ $tempUserID = $_SESSION['userID'];
 <title> Groups Overview </title>
 <link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body>
+<body background = "../images/workBG.jpg">
+	<div id="header" class="ui-container">
+		<div class="nav">
+		   <button class="nav-hover">Menu</button>
+		   <div class="nav-links">
+				<a href="userIndex.php">Back to Index</a>
+				<a href="../actionLogOut.php">Sign out</a>
+			</div>
+		</div> 
+	</div>
 <table class = "table">
 		<thead>
 			<tr>
@@ -50,7 +59,7 @@ $tempUserID = $_SESSION['userID'];
 
 		// Query for all groupmembers within a group and check for their
 
-		$sqlTwo = "SELECT firstName, lastName, phoneNumber, email, employeeId FROM Employees FULL OUTER JOIN ON GroupsUsers.employeeId = Employees.employeeId WHERE GroupsUsers.groupId = $row[groupId]";
+		$sqlTwo = "SELECT firstName, lastName, phoneNumber, email, employeeId FROM Employees RIGHT JOIN ON GroupsUsers.employeeId = Employees.employeeId WHERE GroupsUsers.groupId = $row[groupId]";
 
 		}
 		?>

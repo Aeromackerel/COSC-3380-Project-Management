@@ -18,7 +18,16 @@ $tempUserID = $_SESSION['userID'];
 <title> Events Overview </title>
 <link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body>
+<body background = "../images/workBG.jpg">
+	<div id="header" class="ui-container">
+		<div class="nav">
+		   <button class="nav-hover">Menu</button>
+		   <div class="nav-links">
+				<a href="userIndex.php">Back to Index</a>
+				<a href="../actionLogOut.php">Sign out</a>
+			</div>
+		</div> 
+	</div>
 	<table class = "table">
 	<thead>
 			<tr>
@@ -39,7 +48,7 @@ $tempUserID = $_SESSION['userID'];
 		include "../../includes/dbconnect.ini.php";
 
 		// Query for UserID related to the Event and display the data
-		$sqlOne = "SELECT eventName, description, location, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID";
+		$sqlOne = "SELECT eventName, descriptionEvent, locationEvent, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID";
 
 
 		// Querying and printing to the table
@@ -48,8 +57,8 @@ $tempUserID = $_SESSION['userID'];
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
 			echo "<tr><td>".$row['eventName']."</td>
-				<td>".$row['description']."</td>
-				<td>".$row['location']."</td>
+				<td>".$row['descriptionEvent']."</td>
+				<td>".$row['locationEvent']."</td>
 				<td>".$row['startDateTime']."</td>
 				<td>".$row['endDateTime']."</td>
 				</tr>"

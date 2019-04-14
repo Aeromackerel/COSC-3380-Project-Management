@@ -2,7 +2,7 @@
 
 <title>Home Page</title>
 <link rel="stylesheet"type="text/css"href="style.css">
-<body background= "images/workBG.jpg">
+<body background= "images/initialBG.jpg">
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
