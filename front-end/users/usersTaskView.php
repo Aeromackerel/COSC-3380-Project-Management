@@ -30,19 +30,101 @@ $tempUserID = $_SESSION['userID'];
 	</div>
 
 	<!---- Inline form for changes ---->
-	<form class = "form-inline">
-		<div class = "form-group">
-			<label for = "taskId"> taskId </label>
-			<input type = "taskId" class = form-control id = "taskIdChange">
-		</div>
+	<form class = "form-inline" method = post>
+		<label class = "sr-only" for = "inlineFormInputName2"> taskId </label>
+		<input type = "text" name = "taskIdChange" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "taskId # goes here">
+
+		<label class = "sr-only" for = "inlineFormInputName2"> Status notes change </label>
+		<input type="text" name = "statusNotesChange" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Status notes change">
+
+		<label class="mr-sm-2" for="inlineFormCustomSelect">Update Status</label>
+		<select class="custom-select mr-sm-2" name = "statusChange" id="inlineFormCustomSelect">
+			<option selected>Choose...</option>
+        	<option value=1> 1 - Have not started</option>
+        	<option value=2> 2 - Stuck</option>
+        	<option value=3> 3 - In Progress</option>
+        	<option value=4> 4 - Almost Finished </option>
+        	<option value=5> 5 - Finished</option>
+      </select>
+
+     <div class="form-check mb-2 mr-sm-2">
+    <input class="form-check-input" name = "flagForDeletion" type="checkbox" id="inlineFormCheck">
+    <label class="form-check-label" for="inlineFormCheck">
+    	Flag for Deletion
+    </label>
+	</div>
+
+      <button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Submit </button>
 	</form>
 
+	<!----- If button is pressed, we want to make changes to the task table ----->
+
+	<?php
+		
+	// Connection to the DB
+
+	include "../../includes/dbconnect.ini.php";
+
+	// Setting default date time zone to America for startDateTime update
+	date_default_timezone_get('America');
+
+	// Storing variables from the given form to update the DB and if button is pressed change the information within the DB
+
+	if (isset($_POST['submit-button']))
+	{
+	$taskIdRef = $_POST['taskIdChange'];
+	$statusNotes = $_POST['statusNotesChange'];
+	$statusId = $_POST['statusChange'];
+
+	// Query if the status was 1 before
+
+	$sqlStartDateQuery = "SELECT status FROM TASKS WHERE taskId = '$taskIdRef'";
+	$stmt = $conn->prepare($sqlStartDateQuery);
+	$stmt->execute();
+	$sqlStartDateRow = $stmt->fetch(PDO::FETCH_ASSOC);
+	$sqlStartDateBoolean = false;
+
+	if ($sqlStartDateRow['status'] == 1)
+	{
+		$sqlStartDateBoolean = true;
+		$sqlStartDate = date("Y-m-d H:i:s"); 
+	}
+
+	// If the flag for deletion has been inserted then we'll push the notice to the DB admin to check if we should delete or not
+
+	if (isset($_POST['flagForDeletion']))
+	{
+		$flagDelete = $_POST['flagForDeletion'];
+		$sqlOneFlag = "UPDATE TASKS SET statusNotes = '$statusNotes', status = '$statusId', deleteFlagStatus = 1 WHERE taskId = '$taskIdRef'";
+		$stmt = $conn->prepare($sqlOneFlag);
+		$stmt->execute();
+	}
+
+	// Otherwise we just perform an update Query
+
+	else
+	{
+		$sqlOne = "UPDATE TASKS SET statusNotes = '$statusNotes', status = '$statusId' WHERE taskId = '$taskIdRef'";
+		$stmt = $conn->prepare($sqlOne);
+		$stmt->execute();
+
+		// Update the start time
+
+		if ($sqlStartDateBoolean == true)
+		{
+			$sqlOneStart = "UPDATE Tasks SET startDate = '$sqlStartDate'";
+			$stmt = $conn->prepare($sqlOneStart);
+			$stmt->execute();
+		}
+	}
 
 
 
+	}
 
+	?>
 
-	<table class = "table">
+	<table id = "tasksTable" class = "table">
 		<thead>
 			<tr>
 				<th> Task ID </th>
@@ -92,7 +174,11 @@ $tempUserID = $_SESSION['userID'];
 	</table>
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script> $(".table").dataTable(); </script>
+<script type = "text/javascript">
+$(document).ready(function()
+{$(".tasksTable").dataTable();
+}); 
+</script>
 
 
 	<div id="footer" class="ui-container">

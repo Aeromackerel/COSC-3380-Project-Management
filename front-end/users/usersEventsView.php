@@ -48,7 +48,7 @@ $tempUserID = $_SESSION['userID'];
 		include "../../includes/dbconnect.ini.php";
 
 		// Query for UserID related to the Event and display the data
-		$sqlOne = "SELECT eventName, descriptionEvent, locationEvent, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID";
+		$sqlOne = "SELECT eventName, descriptionEvent, locationEvent, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID ORDER BY startDateTime";
 
 
 		// Querying and printing to the table
