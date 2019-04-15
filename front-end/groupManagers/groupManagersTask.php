@@ -1,21 +1,22 @@
-<!----- PHP Section ----->
-
 <?php
+
+// start session and check if the roleId is == 2
+
 session_start();
 
-// If user isn't logged in then they will be redirected back to the log in page.
+// Redirects user to the log in page if they aren't logged in and if they don't have groupManagers privileges
 
-if (!$_SESSION['loggedin']) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2) 
 {header ("Location: ../login.php");}
 
 $tempUserID = $_SESSION['userID'];
 
+
 ?>
 
-
-
-<!DOCTYPE HTML>
-<link rel = "stylesheet" href = "bootstrap.css">
+<!----- HTML SECTION ----->
+<DOCTYPE HTML>
+<link rel = "stylesheet" href = "../users/bootstrap.css">
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body background = "../images/workBG.jpg">
@@ -23,7 +24,7 @@ $tempUserID = $_SESSION['userID'];
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="userIndex.php">Back to Index</a>
+				<a href="groupManagersIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div> 
@@ -51,13 +52,6 @@ $tempUserID = $_SESSION['userID'];
     <input class="form-check-input" name = "flagForDeletion" type="checkbox" id="inlineFormCheck">
     <label class="form-check-label" for="inlineFormCheck">
     	Flag for Deletion
-    </label>
-	</div>
-
-	<div class="form-check mb-2 mr-sm-2">
-    <input class="form-check-input" name = "flagForStartDate" type="checkbox" id="inlineFormCheck">
-    <label class="form-check-label" for="inlineFormCheck">
-    	Reset start Date
     </label>
 	</div>
 
@@ -101,17 +95,10 @@ $tempUserID = $_SESSION['userID'];
 
 	if (isset($_POST['flagForDeletion']))
 	{
+		$flagDelete = $_POST['flagForDeletion'];
 		$sqlOneFlag = "UPDATE TASKS SET statusNotes = '$statusNotes', status = '$statusId', deleteFlagStatus = 1 WHERE taskId = '$taskIdRef'";
 		$stmt = $conn->prepare($sqlOneFlag);
 		$stmt->execute();
-	}
-
-	// If flag for reset start Date has been selected then we can reset the start Date
-
-	if (isset($_POST['flagForStartDate']))
-	{
-		$sqlOneFlagStart = "UPDATE Tasks SET startDate = NULL WHERE taskId = '$taskIdRef'";
-		$stmt = $conn->query($sqlOneFlagStart);
 	}
 
 	// Otherwise we just perform an update Query
@@ -126,7 +113,7 @@ $tempUserID = $_SESSION['userID'];
 
 		if ($sqlStartDateBoolean == true)
 		{
-			$sqlOneStart = "UPDATE Tasks SET startDate = '$sqlStartDate' WHERE taskId = '$taskIdRef'";
+			$sqlOneStart = "UPDATE Tasks SET startDate = '$sqlStartDate'";
 			$stmt = $conn->prepare($sqlOneStart);
 			$stmt->execute();
 		}
@@ -201,5 +188,5 @@ $(document).ready(function()
 		<p>footer link</p>
 	</div>
 </body>
-
-<HTML>
+	
+</HTML>

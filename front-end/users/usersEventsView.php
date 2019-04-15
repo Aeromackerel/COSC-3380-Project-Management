@@ -54,6 +54,7 @@ $tempUserID = $_SESSION['userID'];
 		// Querying and printing to the table
 
 		$stmt = $conn->query($sqlOne);
+		
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
 			echo "<tr><td>".$row['eventName']."</td>
