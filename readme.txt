@@ -21,9 +21,11 @@ email : groupManager@gmail.com password : 123 (Group Manager ACCESS)
 
 If you're having problems finding driver
 
-follow instructions here
+https://github.com/Microsoft/msphpsql
 
-https://stackoverflow.com/questions/32728860/php-7-rc3-how-to-install-missing-mysql-pdo
+CHECK your php version if it's the latest then use the following (latest version = PhP 7.2.12
+
+Download the driver from here
 
 navigate to -> php.ini file and insert the following
 
