@@ -23,7 +23,7 @@ If you're having problems finding driver
 
 https://github.com/Microsoft/msphpsql
 
-CHECK your php version if it's the latest then use the following (latest version = PhP 7.2.12
+CHECK your php version if it's the latest then use the following (latest version = PhP 7.2.(whatever number)
 
 Download the driver from here
 
