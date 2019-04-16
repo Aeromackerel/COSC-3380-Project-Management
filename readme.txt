@@ -18,4 +18,14 @@ Description: web-based application meant to streamline contemporary problems wit
 6) Log in using either 
 email : genUser@gmail.com	password : mango90 (General Employee ACCESS)
 email : groupManager@gmail.com password : 123 (Group Manager ACCESS)
-		 
+
+If you're having problems finding driver
+
+follow instructions here
+
+https://stackoverflow.com/questions/32728860/php-7-rc3-how-to-install-missing-mysql-pdo
+
+navigate to -> php.ini file and insert the following
+
+extension=php_sqlsrv_72_ts
+extension=php_pdo_sqlsrv_72_ts
