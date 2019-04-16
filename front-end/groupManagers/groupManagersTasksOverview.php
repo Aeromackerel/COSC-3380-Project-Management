@@ -17,7 +17,7 @@ $tempUserID = $_SESSION['userID'];
 <link rel = "stylesheet" href = "../users/bootstrap.css">
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background = "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
@@ -93,9 +93,7 @@ $tempUserID = $_SESSION['userID'];
 		<table id = "tasksTable" class = "table">
 		<thead>
 			<tr>
-				<th> Task ID </th>
 				<th> Task name </th>
-				<th> Employee ID </th>
 				<th> Employee Name </th>
 				<th> Status </th>
 				<th> Status Notes </th>
@@ -113,6 +111,9 @@ $tempUserID = $_SESSION['userID'];
 
 		include "../../includes/dbconnect.ini.php";
 
+		// Array for enumerated Types
+		$statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Finished", "Finished");
+
 		// Now we want to run a query on groupUsers to find all Employees
 
 			$sqlThree = "SELECT taskId, taskName, Employees.employeeId, firstName, lastName, status, statusNotes, startDate, actualEndDateTime FROM Tasks INNER JOIN Employees ON Tasks.employeeId = Employees.employeeId ORDER BY Status DESC";
@@ -121,11 +122,10 @@ $tempUserID = $_SESSION['userID'];
 
 			while ($rowThree = $stmt3->fetch(PDO::FETCH_ASSOC))
 			{
-				echo "<tr><td>".$rowThree['taskId']."</td>
+				echo "<tr>
 				<td>".$rowThree['taskName']."</td>
-				<td>".$rowThree['employeeId']."</td>
 				<td>".$rowThree['firstName']. " ". $rowThree['lastName']."</td>
-				<td>".$rowThree['status']."</td>
+				<td>".$statusName[$rowThree['status']]."</td>
 				<td>".$rowThree['statusNotes']."</td>
 				<td>".$rowThree['startDate']."</td>
 				<td>".$rowThree['actualEndDateTime']."<td>
@@ -143,11 +143,6 @@ $tempUserID = $_SESSION['userID'];
 
 
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
 </body>
 
 <HTML>

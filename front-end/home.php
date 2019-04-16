@@ -15,11 +15,6 @@
 		</div> 
 	</div>
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
 </body>
 
 </html>

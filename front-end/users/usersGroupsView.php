@@ -23,7 +23,7 @@ $searchBool = false;
 <title> Groups Overview </title>
 <link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background = "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
@@ -34,55 +34,11 @@ $searchBool = false;
 		</div> 
 	</div>
 
-	<!----- In line form to search for a group member 
-
-	<form class = "form-inline" method = post>
-		<label class = "sr-only" for = "inlineFormInputName2"> Employee First Name </label>
-		<input type = "text" name = "employeeFirstNameSearch" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Employee first name">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Employee Last Name </label>
-		<input type = "text" name = "employeeLastNameSearch" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Employee last name">
-
-		<button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Search for Employee </button>
-	</form>
-
-	----->
-
-	<?php
-
-	/** Connects to the SQL server so we an find what the user might be looking for
-
-	include "../../includes/dbconnect.ini.php";
-
-	if (isset($_POST['submit-button']))
-	{
-		$employeeFirstName = $_POST['employeeFirstNameSearch'];
-		$employeeLastName = $_POST['employeeLastNameSearch'];
-
-		$sqlFindQuery = "SELECT firstName, lastName, employeeId, email, phoneNumber, role FROM Employees WHERE Employees.firstName = '$employeeFirstName' AND Employees.lastName ='$employeeLastName'";
-
-		$stmtFind = $conn->query($sqlFindQuery);
-
-		$rowResult = $stmtFind->fetch(PDO::FETCH_ASSOC);
-
-		$searchBool = true;
-	}
-		*/
-	?>
-
-
-
-
-
-
-
-
 
 <table class = "table">
 		<thead>
 			<tr>
 				<th> Group Member's Name </th>
-				<th> Group Member's ID</th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
 				<th> Role </th>
@@ -95,6 +51,10 @@ $searchBool = false;
 
 		<?php
 		include "../../includes/dbconnect.ini.php";
+
+		// Creating Enumerated types via arrays again
+
+		$roleIdArray = array("", "", "Manager", "Project Manager");
 
 		// Query for initial Groups that the user is involved in
 
@@ -128,10 +88,9 @@ $searchBool = false;
 					// Print to the table
 
 				echo "<tr><td>".$row3['firstName']." ".$row3['lastName']."</td>
-				<td>".$row3['employeeId']."</td>
 				<td>".$row3['email']."</td>
 				<td>".$row3['phoneNumber']."</td>
-				<td>".$row3['role']."</td>
+				<td>".$roleIdArray[$row3['role']]."</td>
 				</tr>"
 				;
 				}
@@ -153,10 +112,5 @@ $searchBool = false;
 
 
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
 </body>
 </HTML>

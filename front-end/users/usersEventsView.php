@@ -18,7 +18,7 @@ $tempUserID = $_SESSION['userID'];
 <title> Events Overview </title>
 <link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background = "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>

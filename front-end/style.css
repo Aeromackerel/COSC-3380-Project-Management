@@ -3,6 +3,7 @@ body
    margin:0;
    padding:0;
    background-repeat: no-repeat;
+   background-color: #EBEDEF  ;
 }
 p,h1,a,.ui-textfield,.ui-button,tr,th{
   font-family:"Arial",sans-serif;

@@ -19,7 +19,7 @@ $tempUserID = $_SESSION['userID'];
 <link rel = "stylesheet" href = "../users/bootstrap.css">
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background = "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
@@ -182,11 +182,7 @@ $(document).ready(function()
 </script>
 
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
+
 </body>
 	
 </HTML>

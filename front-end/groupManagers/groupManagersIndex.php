@@ -15,7 +15,7 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 <!DOCTYPE HTML>
 <title>Dashboard</title>
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background= "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
@@ -33,10 +33,5 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 	<a id="applink" href = "groupManagersGroupsView.php"> Groups </a>
 	<a id ="applink"> Projects</a>
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
 </body>
 </html>
