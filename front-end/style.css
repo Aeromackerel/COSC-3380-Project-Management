@@ -141,12 +141,13 @@ a{color:#a0a0a0;}
 #ui-timesheet{
 	margin:auto;
 	width:90%;
+	border-radius:25px;
+	background-color:#ffffff;
+	padding-top:10px;
 }
 #ui-timesheet>table{
 	padding:10px;
-	background-color:#ffffff;
 	width:100%;
-	border-radius:25px;
 }
 #ui-timesheet th{
 	font-size:20px;
