@@ -12,6 +12,6 @@
 
 	catch (Exception $e)
 	{
-		die(var_dump($e);
+		die(var_dump($e));
 	}
 ?>
