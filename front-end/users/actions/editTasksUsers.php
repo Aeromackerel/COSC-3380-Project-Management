@@ -44,6 +44,8 @@
 
  		$buttonPressedBool = true;
  	}
+ 	else if (isset($_POST['goBack']))
+ 	{$buttonPressedBool = true;}
 
  	// Redirects user back to old page once pressed
 
@@ -79,6 +81,7 @@
         	<option value=4> Almost Finished </option>
         	<option value=5> Finished</option>
       	</select>
+      	 <button type ="submit" name ="goBack" class = "btn btn-secondary btn-space2"> Back </button>
 		 <button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>
 		 <button type="submit" name = "flagChanges" class="btn btn-danger btn-space2">Flag for Deletion</button>
 	</form>

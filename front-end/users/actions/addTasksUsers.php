@@ -23,12 +23,26 @@
  		$projectId = (int)$_POST['relatedProjectCreate'];
  		$statusNotes = $_POST['statusNoteCreate'];
 
+ 		$fieldsdFilled = true;
+
+ 		// If the fields are empty
+
+ 		if (empty($taskName) || empty($description) || empty($endDate) || empty($projectId))
+ 			{$fieldsFilled = false;}
+
+ 		if ($fieldsFilled == true)
+ 		{
  		$sqlCreateTask = "INSERT INTO TASKS (projectId, taskName, status, statusNotes, desiredEndDateTime, description, employeeId, deleteFlagStatus) VALUES
  		($projectId, '$taskName', 1, '$statusNotes', '$endDate', '$description', $tempUserID, 0)";
  		$stmt = $conn->query($sqlCreateTask);
 
  		header ("Location: ../usersTaskView.php");
+ 		}
  	}
+
+ 	else if (isset($_POST['goBack']))
+ 	{header ("Location: ../usersTaskView.php");}
+ 	
 	
 
 ?>
@@ -99,6 +113,7 @@
 			?>
 
       	</select>
+      	 <button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
 		 <button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>
 	</form>
 
