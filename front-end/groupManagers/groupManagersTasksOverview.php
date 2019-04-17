@@ -5,7 +5,7 @@ session_start();
 
 // If user isn't logged in then they will be redirected back to the log in page.
 
-if (!$_SESSION['loggedin']) 
+if (!$_SESSION['loggedin'])
 {header ("Location: ../login.php");}
 
 $tempUserID = $_SESSION['userID'];
@@ -25,13 +25,13 @@ $tempUserID = $_SESSION['userID'];
 				<a href="groupManagersIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 	<center>
 	<form method = "post">
 	<div class = "form-row align-items-center">
 		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
- 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button>
  	</div>
  	</form>
  	</center>
@@ -67,6 +67,7 @@ $tempUserID = $_SESSION['userID'];
 
 			$searchBool = false;
 
+			$statusName = array("No progress", "Started", "Almost Finished", "Stuck", "Finished");  // !!!!!!!!!!!!!!!!!!!!!!! remove later hack
 			if (isset($_POST['searchTask']))
 				{$searchBool = true;}
 
