@@ -14,29 +14,32 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 
 <!DOCTYPE HTML>
 <title>Dashboard</title>
+<link rel="stylesheet"type="text/css"href="../users/bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
-<body background= "../images/workBG.jpg">
+<body>
 	<div id="header" class="ui-container">
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="timesheet/01262019.html">timesheet</a>
-				<a href="../actionLogOut.php">sign out</a>
+				<a href="timesheet/01262019.html">Timesheet</a>
+				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div> 
 	</div>
-	<a id="applink" href="timesheet/01262019.html"> Timesheet</a>
-	<a id = "applink"> Projects </a>
-	<a id="applink" href = "usersTaskView.php"> Project Costs Reports </a>
-	<a id="applink" href = "usersEventsView.php"> Overview of Project Employees </a>
-	<a id="applink" href = "usersGroupsView.php"> Groups </a>
-	<a id="applink"> Assign Groups </a>
-	<a id="applink"> Assign Events </a>
+	<table id="applink-table">
+		<tr>
+		<td class="applink-td"><a href="../timesheets/01262019.html" class="applink">Timesheet</a></td>
+		<td class="applink-td"><a class="applink"> Employees Report </a> </td>
+		<td class="applink-td"><a class= "applink"> Project costs Report </a> </td>
+		<td class="applink-td"><a class= "applink"> Project hours Report </a> </td>
+		</tr>
 
-	<div id="footer" class="ui-container">
-		<p>footer link</p>
-		<p>footer link</p>
-		<p>footer link</p>
-	</div>
+		<tr>
+		<td class="applink-td"><a class="applink" href = "usersTaskView.php">Tasks</a></td>
+		<td class="applink-td"><a class="applink" href = "usersEventsView.php">Events</a></td>
+		<td class="applink-td"><a class="applink" href = "usersGroupsView.php">Groups</a></td>
+		<td class="applink-td"><a class="applink"> Employees </a> </td>
+		</tr>
+	</table>
 </body>
 </html>
