@@ -12,6 +12,8 @@
 		</div> 
 	</div>
 	<div id="ui-timesheet">
+		<form action="timesheet.php" method="post">
+		<center>
 	   <table>
 		    <tr>
 			   <th>Project</th>
@@ -26,28 +28,43 @@
 			</tr>
 			<?php
 				$i=0;
-				while($i<4){
+				
+				while($i<4){   //replace with each row from db
+				
 					echo"<tr>";
-					$mon=rand(0,10)/10;
-					$tue=rand(0,10)/10;
-					$wed=rand(0,10)/10;
-					$thu=rand(0,10)/10;
-					$fri=rand(0,10)/10;
-					$sat=rand(0,10)/10;
-					$sun=rand(0,10)/10;
-					echo"<td>proj ".$i."</td>";
-					echo"<td>".$mon."</td>";
-					echo"<td>".$tue."</td>";
-					echo"<td>".$wed."</td>";
-					echo"<td>".$thu."</td>";
-					echo"<td>".$fri."</td>";
-					echo"<td>".$sat."</td>";
-					echo"<td>".$sun."</td>";
+					
+					$proj_name="proj".$i; //replace with project name
+					
+					$mon=rand(0,10)/10;   //replace with hours per day from db
+					$tue=rand(0,10)/10;   //  |
+					$wed=rand(0,10)/10;   //  |
+					$thu=rand(0,10)/10;   //  v
+					$fri=rand(0,10)/10;   //
+					$sat=rand(0,10)/10;   //
+					$sun=rand(0,10)/10;   //
+					
+					
+					
+					echo"<td>".$proj_name."</td>";  
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Mon".$i."' value='".$mon."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Tue".$i."' value='".$tue."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Wed".$i."' value='".$wed."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Thu".$i."' value='".$thu."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Fri".$i."' value='".$fri."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Sat".$i."' value='".$sat."'/></td>";
+					echo"<td><input style='width:30%;' type='text' name='".$proj_name."Sun".$i."' value='".$sun."'/></td>";
 					echo"<td>".($mon+$tue+$wed+$thu+$fri+$sat+$sun)."</td>";
+					
 					echo"</tr>";
+					
 					$i++;
 				}
 			?>
-		</table> 
+			
+		</table>	
+			</br>
+			<input class="ui-button" type="submit" name ="update-button"  style="margin-bottom:20px;"value="Update">
+		</center>
+		</form>	
 	</div>
 </body>
