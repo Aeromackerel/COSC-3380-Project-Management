@@ -27,65 +27,17 @@ $tempUserID = $_SESSION['userID'];
 			</div>
 		</div> 
 	</div>
-
-	<!----- Inline form to assign employee's new tasks ----->
-	<form class = "form-inline" method = post>
-		<label class = "sr-only" for = "inlineFormInputName2"> taskName </label>
-		<input type = "text" name = "taskNameCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "task Name">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Related To Project Name </label>
-		<input type="text" name = "projectNameCreate" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Project Name">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Desired End Date (YYYY-MM-DD) </label>
-		<input type = "text" name = "desiredEndDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "2019-05-01">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Description </label>
-		<input type = "text" name = "descriptionCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Sample Description">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Employee ID </label>
-		<input type = "text" name = "employeeIdCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "EmployeeID">
-
-            <button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Add Task </button>
-	</form>
+	<center>
+	<form method = "post">
+	<div class = "form-row align-items-center">
+		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
+ 	</div>
+ 	</form>
+ 	</center>
 
 
-	<!----- PHP section to ADD a new Task ----->
-	<?php
-	if (isset($_POST['submit-button']))
-	{
-
-	// Connection to the DB
-
-	include "../../includes/dbconnect.ini.php";
-
-	// Query for Project Name
-
-	$projectName = $_POST['projectNameCreate'];
-
-	$sqlQueryProjectID = "SELECT projectId from Projects WHERE projectName ='$projectName'";
-
-	$stmt= $conn->query($sqlQueryProjectID);
-
-	$rowProjectId = $stmt->fetch(PDO::FETCH_ASSOC);
-
-	$projectIdFound = $rowProjectId['projectId'];
-
-	// Using form data to create the entity in the table
-
-	$taskName = $_POST['taskNameCreate'];
-	$endDate = $_POST['desiredEndDateCreate'];
-	$description = $_POST['descriptionCreate'];
-	$employeeID = (int)$_POST['employeeIdCreate'];
-
-	$sqlCreateQuery = "INSERT INTO Tasks(projectId, taskName, status, desiredEndDateTime, description, employeeId, deleteFlagStatus)
-	VALUES('$projectIdFound', '$taskName', 1, '$endDate', '$description', '$employeeID', 0)";
-
-	$stmt=$conn->query($sqlCreateQuery);
-
-	}
-
-
-	?>
+	<a href = 'actions/addTasksGroupManagers.php'><button type="button" name = "addTask" class="btn btn-success float-right btn-space">Add Task</button> </a>
 
 
 	<!---- Left join on Employees/Tasks table ----->
@@ -103,41 +55,71 @@ $tempUserID = $_SESSION['userID'];
 		</thead>
 		<tbody>
 
-		<!------ DB connection and Query ------->
+<!------ DB connection and Query ------->
 
-		<?php
+			<?php
 
-		// Connection to the DB
+			// Connection to the DB
 
-		include "../../includes/dbconnect.ini.php";
+			include "../../includes/dbconnect.ini.php";
 
-		// Array for enumerated Types
-		$statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Finished", "Finished");
+			// Boolean to check whether or not the search Task was pressed
 
-		// Now we want to run a query on groupUsers to find all Employees
+			$searchBool = false;
 
-			$sqlThree = "SELECT taskId, taskName, Employees.employeeId, firstName, lastName, status, statusNotes, startDate, actualEndDateTime FROM Tasks INNER JOIN Employees ON Tasks.employeeId = Employees.employeeId ORDER BY Status DESC";
+			if (isset($_POST['searchTask']))
+				{$searchBool = true;}
 
-			$stmt3 = $conn->query($sqlThree);
+			// Search for the Task given by the user
 
-			while ($rowThree = $stmt3->fetch(PDO::FETCH_ASSOC))
-			{
-				echo "<tr>
-				<td>".$rowThree['taskName']."</td>
-				<td>".$rowThree['firstName']. " ". $rowThree['lastName']."</td>
-				<td>".$statusName[$rowThree['status']]."</td>
-				<td>".$rowThree['statusNotes']."</td>
-				<td>".$rowThree['startDate']."</td>
-				<td>".$rowThree['actualEndDateTime']."<td>
-				</tr>"
-				;
+			    if($searchBool == true)
+			    {
+			    $sqlTwo = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+
+				$stmt2 = $conn->query($sqlTwo);
+
+			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
+			    {
+			    		echo "<tr>
+						<td>".$row2['taskName']."</td>
+						<td>".$row2['description']."</td>
+						<td>".$statusName[$row2['status']]."</td>
+						<td>".$row2['statusNotes']."</td>
+						<td>".$row2['startDate']."</td>
+						<td>".$row2['desiredEndDateTime']."</td>
+						<td>  <a href='actions/editTasksUsers.php?edit=$row2[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
+						</td> </tr>";
+			    }
+
 			}
 
+			// Query for everything else - CHANGE THIS PART, so we can query for all employees that are related in a group
 
+			else{
 
+				// Query for userID with the session email that we have from the session
 
+				$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
 
-		?>
+				// Prints to the table so what they have
+
+				$stmt = $conn->query($sqlOne);
+				while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+				{
+					echo "<tr>
+					<td>".$row['taskName']."</td>
+					<td>".$row['description']."</td>
+					<td>".$statusName[$row['status']]."</td>
+					<td>".$row['statusNotes']."</td>
+					<td>".$row['startDate']."</td>
+					<td>".$row['desiredEndDateTime']."</td>
+					<td>  <a href='actions/editTasksUsers.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
+					</td> </tr>";
+				}
+
+			}
+			?>
+
 		</tbody>
 	</table>
 
