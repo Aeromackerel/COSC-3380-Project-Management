@@ -53,7 +53,7 @@
 
 <!---- HTML Section ---->
 <!DOCTYPE HTML>
-<link rel = "stylesheet" href = "../bootstrap.css">
+<link rel = "stylesheet" href = "../../users/bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../../style.css">
 
 
