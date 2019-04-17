@@ -12,7 +12,7 @@ p,h1,a,.ui-textfield,.ui-button,tr,th{
 	font-size:13px;
 	padding:0;
 	margin:0 0 1px 0;
-	color:#888888;
+	color:#ffffff;
 }
 #footer>p:hover{color:#4caf50;}
 #footer>p:active{color:#6ccf70;}
@@ -103,6 +103,7 @@ a{color:#a0a0a0;}
 	position:fixed;
 	bottom:0;
 	border-radius:0;
+	background:#888888bb;
 }
 .nav-hover{
    background-color:#ffffff;
@@ -202,4 +203,37 @@ a{color:#a0a0a0;}
 .applink-td:hover a{
     color:#ffffff;
     
+}
+#hometitle{
+	color:#ffffff;
+	font-size:23px;
+}
+#homep{
+	color:#ffffff;
+	font-size:20px;
+}
+#ui-home-main{
+	padding:70px;
+	margin:auto;
+	width:50%;
+	text-align:center;
+	background-color:#888888dd;
+}
+#home-ui-table{
+	margin:auto;
+	width:50%;
+	text-align:center;
+    border-collapse: separate;
+    border-spacing: 20px;
+}
+
+#home-ui-table td{
+	background:#888888dd;
+	width:33%;
+	border-radius:20px;
+	padding:10px;
+}
+#home-ui-table td>p{
+	color:#ffffff;
+	font-size:18px;
 }
