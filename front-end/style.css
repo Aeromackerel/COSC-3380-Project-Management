@@ -9,10 +9,10 @@ p,h1,a,.ui-textfield,.ui-button,tr,th{
   font-family:"Arial",sans-serif;
 }
 #footer>p{
-	font-size:13px;
-	padding:0;
-	margin:0 0 1px 0;
-	color:#ffffff;
+  font-size:13px;
+  padding:0;
+  margin:0 0 1px 0;
+  color:#ffffff;
 }
 #footer>p:hover{color:#4caf50;}
 #footer>p:active{color:#6ccf70;}
@@ -21,17 +21,17 @@ p,h1,a,.ui-textfield,.ui-button,tr,th{
    border-radius:25px;
 }
 #header{
-	margin:10px;
-	margin-bottom:35px;
-	margin-top:0;
-	padding:5px;
-	padding-left:25px;
-	padding-top:2px;
-	padding-bottom:3px;
-	border-radius:0px 0px 25px 25px;
+  margin:10px;
+  margin-bottom:35px;
+  margin-top:0;
+  padding:5px;
+  padding-left:25px;
+  padding-top:2px;
+  padding-bottom:3px;
+  border-radius:0px 0px 25px 25px;
 }
 #header-title{
-	color:#888888;
+  color:#888888;
 }
 #login-container{
    margin:auto;
@@ -97,13 +97,13 @@ p,h1,a,.ui-textfield,.ui-button,tr,th{
 .ui-button:active{background-color:#6ccf70;}
 a{color:#a0a0a0;}
 #footer{
-	margin:0;
-	width:100%;
-	padding:10px 10px 10px 20px;
-	position:fixed;
-	bottom:0;
-	border-radius:0;
-	background:#888888bb;
+  margin:0;
+  width:100%;
+  padding:10px 10px 10px 20px;
+  position:fixed;
+  bottom:0;
+  border-radius:0;
+  background:#888888bb;
 }
 .nav-hover{
    background-color:#ffffff;
@@ -133,40 +133,40 @@ a{color:#a0a0a0;}
    display:block;
 }
 .nav-links a:hover{
-	background-color:#4caf50;
-	color:#ffffff;
+  background-color:#4caf50;
+  color:#ffffff;
 }
 .nav-links a:active{background-color:#6ccf70;}
 .nav:hover .nav-links{display:block;}
 .nav:hover .nav-hover{background-color:#ffffff;}
 #ui-timesheet{
-	margin:auto;
-	width:90%;
-	border-radius:25px;
-	background-color:#ffffff;
-	padding-top:10px;
+  margin:auto;
+  width:90%;
+  border-radius:25px;
+  background-color:#ffffff;
+  padding-top:10px;
 }
 #ui-timesheet>table{
-	padding:10px;
-	width:100%;
+  padding:10px;
+  width:100%;
 }
 #ui-timesheet th{
-	font-size:20px;
-	color:#a0a0a0;
+  font-size:20px;
+  color:#a0a0a0;
 }
 #ui-timesheet tr{
-	text-align:center;
-	font-size:16px;
-	color:#a0a0a0;
+  text-align:center;
+  font-size:16px;
+  color:#a0a0a0;
 }
 .timesheet-select{
-	margin-left:50px;
+  margin-left:50px;
 }
 #homelink{
-	padding:10px;
-	background-color:#ffffff;
-	margin:55px;
-	margin-left:25px;
+  padding:10px;
+  background-color:#ffffff;
+  margin:55px;
+  margin-left:25px;
 }
 
 .applink{
@@ -205,35 +205,35 @@ a{color:#a0a0a0;}
     
 }
 #hometitle{
-	color:#ffffff;
-	font-size:23px;
+  color:#ffffff;
+  font-size:23px;
 }
 #homep{
-	color:#ffffff;
-	font-size:20px;
+  color:#ffffff;
+  font-size:20px;
 }
 #ui-home-main{
-	padding:70px;
-	margin:auto;
-	width:50%;
-	text-align:center;
-	background-color:#888888dd;
+  padding:70px;
+  margin:auto;
+  width:50%;
+  text-align:center;
+  background-color:#888888dd;
 }
 #home-ui-table{
-	margin:auto;
-	width:50%;
-	text-align:center;
+  margin:auto;
+  width:50%;
+  text-align:center;
     border-collapse: separate;
     border-spacing: 20px;
 }
 
 #home-ui-table td{
-	background:#888888dd;
-	width:33%;
-	border-radius:20px;
-	padding:10px;
+  background:#888888dd;
+  width:33%;
+  border-radius:20px;
+  padding:10px;
 }
 #home-ui-table td>p{
-	color:#ffffff;
-	font-size:18px;
+  color:#ffffff;
+  font-size:18px;
 }

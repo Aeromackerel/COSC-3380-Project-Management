@@ -32,15 +32,15 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 			</div>
 		</div> 
 	</div>
- <?php
 
- 	include "../../includes/dbconnect.ini.php";
-
-?>
-
+	<center>
 	<form method = "post">
-	<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
- 	<button type = "submit" name = "searchTask" class="ui-button">search</button> </form>
+	<div class = "form-row align-items-center">
+		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
+ 	</div>
+ 	</form>
+ 	</center>
 
 	<a href = 'actions/addTasksUsers.php'><button type="button" name = "addTask" class="btn btn-success float-right btn-space">Add Task</button> </a>
 	<table id = "tasksTable" class = "table">

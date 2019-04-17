@@ -34,10 +34,19 @@ $searchBool = false;
 		</div> 
 	</div>
 
+	<center>
+	<form method = "post">
+		<div class = "form-row align-items-center">
+		<input type="text" class="form-control2" name ="groupFind" placeholder="Search for Group">
+ 		<button type = "submit" name = "searchGroup" class="btn btn-info">search</button>
+ 	</div>
+ 	</form>
+ </center>
 
 <table class = "table">
 		<thead>
 			<tr>
+				<th> Belongs to Group </th>
 				<th> Group Member's Name </th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
@@ -52,11 +61,18 @@ $searchBool = false;
 		<?php
 		include "../../includes/dbconnect.ini.php";
 
+		$searchBool = false;
+
+		if (isset($_POST['searchGroup']))
+			{$searchBool = true;}
+
 		// Creating Enumerated types via arrays again
 
 		$roleIdArray = array("", "", "Manager", "Project Manager");
 
 		// Query for initial Groups that the user is involved in
+
+		if($searchBool == false){
 
 		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
 
@@ -77,6 +93,14 @@ $searchBool = false;
 
 			while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
 			{
+
+				$searchGroup = "SELECT groupName FROM Groups WHERE groupId = $row[groupId]";
+
+				$stmtGroupName = $conn->query($searchGroup);
+
+				$rowFind = $stmtGroupName->fetch(PDO::FETCH_ASSOC);
+
+				$groupName = $rowFind['groupName'];
 			
 				$sqlThree = "SELECT firstName, lastName, employeeId, email, phoneNumber, role FROM Employees WHERE Employees.employeeId = $row2[employeeId]";
 
@@ -87,7 +111,8 @@ $searchBool = false;
 
 					// Print to the table
 
-				echo "<tr><td>".$row3['firstName']." ".$row3['lastName']."</td>
+				echo "<tr><td>".$groupName."</td>
+				<td>".$row3['firstName']." ".$row3['lastName']."</td>
 				<td>".$row3['email']."</td>
 				<td>".$row3['phoneNumber']."</td>
 				<td>".$roleIdArray[$row3['role']]."</td>
@@ -97,9 +122,31 @@ $searchBool = false;
 
 
 
-			}
+				}
 
+			}
 		}
+
+	// Else if the search bool is true - we re-search - Allow for users to re-search for Group name/Employee name/email
+	else if ($searchBool == true)
+	{
+		$searchFor = $_POST['searchGroup'];
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
 		?>
 
 

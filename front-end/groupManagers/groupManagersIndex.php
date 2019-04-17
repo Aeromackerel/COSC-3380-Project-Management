@@ -2,12 +2,8 @@
 
 <?php
 session_start();
-
 if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 {header ("Location: ../login.php");}
-
-
-
 ?>
 
 <!---- HTML Section ---->
@@ -29,7 +25,6 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 	<table id="applink-table">
 		<tr>
 		<td class="applink-td" style="height:250px;"><a href="../timesheet/timesheet.php" class="applink">Timesheet</a></td>
-		<td class="applink-td" style="height:250px;"><a class="applink" href = "groupManagersTimeApprovals">Timesheet Approvals</a></td>
 		<td class="applink-td" style="height:250px;"><a class="applink" href = "groupManagersTask.php">Tasks</a></td>
 		<td class="applink-td" style="height:250px;"><a class="applink" href = "groupManagersTasksOverview.php"> Tasks Report</a></td>
 		<td class="applink-td" style="height:250px;"><a class="applink" href = "groupManagersEventsView.php">Events</a></td>

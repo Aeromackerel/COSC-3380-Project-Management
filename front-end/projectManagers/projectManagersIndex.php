@@ -2,12 +2,8 @@
 
 <?php
 session_start();
-
 if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3) 
 {header ("Location: ../login.php");}
-
-
-
 ?>
 
 <!---- HTML Section ---->

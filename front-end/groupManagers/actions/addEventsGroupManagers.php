@@ -1,51 +1,44 @@
+    
 <!---- PHP Section ---->
 <?php
 	session_start();
-
 	// If user isn't logged in then they will be redirected back to the log in page.
-
 	if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 	{header ("Location: ../../login.php");}
-
 	$tempUserID = (int)$_SESSION['userID'];
-
-
 	// Include DB connection
  	include "../../../includes/dbconnect.ini.php";
-
  	// If button is pressed then we'll generate the task
-
  	if (isset($_POST['submitChanges']))
  	{
  		$eventName = $_POST['eventNameCreate'];
  		$description = $_POST['descriptionCreate'];
-    $location = $_POST['locationCreate'];
-    $startDate = $_POST['startDateCreate'];
+    	$location = $_POST['locationCreate'];
+    	$startDate = $_POST['startDateCreate'];
  		$endDate =  $_POST['endDateCreate'];
-
  		$fieldsFilled = true;
-
  		// If the fields are empty
-
- 		if (empty($eventName) || empty($description) || empty(location) || empty($endDate) || empty($startDate))
+ 		if (empty($eventName) || empty($description) || empty($location) || empty($endDate) || empty($startDate))
  			{$fieldsFilled = false;}
+
+
 
  		if ($fieldsFilled == true)
  		{
-      $sqlCreateEvent = "INSERT INTO Events(eventName, startDateTime, endDateTime, locationEvent, descriptionEvent, deleteFlagStatus)
-  	VALUES('$eventName', '$startDate', $endDate, '$location', '$description', 0)";
-
+      	$sqlCreateEvent = "INSERT INTO Events(eventName, startDateTime, endDateTime, locationEvent, descriptionEvent, deleteFlagStatus)
+  		VALUES('$eventName', $startDate, $endDate, '$location', '$description', 0)";
  		$stmt = $conn->query($sqlCreateEvent);
 
+ 		$sqlEventIdCreated = $conn->lastInsertId();
+
+ 		$sqlCreateEventGroup = "INSERT INTO EventsUsers(eventId, employeeID) VALUES($sqlEventIdCreated, $tempUserID)";
+ 		$stmt2 = $conn->query($sqlCreateEventGroup);
  		header ("Location: ../groupManagersEventsView.php");
  		}
- 	}
 
+ 	}
  	else if (isset($_POST['goBack']))
  	{header ("Location: ../groupManagersEventsView.php");}
-
-
-
 ?>
 
 

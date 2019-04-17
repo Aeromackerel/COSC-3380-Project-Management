@@ -7,7 +7,7 @@
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="../home.php">Home</a>
+				<a href="../index.php">Home</a>
 				<a href="login.php">Login</a>
 				<a href="register.php">Register</a>
 			</div>
@@ -79,17 +79,17 @@
 
 			// Redirects user to user page (for employees)
 			if ($userRole == 1)
-			{header("Location: /users/userIndex.php");}
+			{header("Location: users/userIndex.php");}
 
 			// Redirects group managers to index for group Managers
 
 			else if ($userRole == 2)
-			{header ("Location: /groupManagers/groupManagersIndex.php");}
+			{header ("Location: groupManagers/groupManagersIndex.php");}
 
 			// Redirects project Managers to index for project Managers
 
 			else if ($userRole == 3)
-			{header ("Location: /projectManagers/projectManagersIndex.php");}
+			{header ("Location: projectManagers/projectManagersIndex.php");}
 			
 
 		}
@@ -111,3 +111,4 @@
 
 
 </body>
+</HTML>
