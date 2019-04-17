@@ -41,13 +41,13 @@ $tempUserID = $_SESSION['userID'];
 		<input type = "text" name = "locationCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Location">
 
 		<label class = "sr-only" for = "inlineFormInputName2"> Start Date (YYYY-MM-DD) </label>
-		<input type = "text" name = "startDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "2019-05-01">
+		<input type = "text" name = "startDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "Start Date">
 
     <label class = "sr-only" for = "inlineFormInputName2"> End Date (YYYY-MM-DD) </label>
-		<input type = "text" name = "endDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "2019-05-01">
+		<input type = "text" name = "endDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "End Date">
 
 
-            <button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Add Task </button>
+            <button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Add Event </button>
 	</form>
 
 
