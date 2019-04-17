@@ -29,16 +29,16 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 	<table id="applink-table">
 		<tr>
 		<td class="applink-td"><a href="../timesheets/01262019.html" class="applink">Timesheet</a></td>
-		<td class="applink-td"><a class="applink"> Employees Report </a> </td>
-		<td class="applink-td"><a class= "applink"> Project costs Report </a> </td>
-		<td class="applink-td"><a class= "applink"> Project hours Report </a> </td>
+		<td class="applink-td"><a href = "projectManagersEmployeeReport.php" class="applink"> Employees Report </a> </td>
+		<td class="applink-td"><a href = "projectManagersCostReport.php" class= "applink"> Project costs Report </a> </td>
+		<td class="applink-td"><a href = "projectManagersHoursReport.php" class= "applink"> Project hours Report </a> </td>
 		</tr>
 
 		<tr>
-		<td class="applink-td"><a class="applink" href = "usersTaskView.php">Tasks</a></td>
-		<td class="applink-td"><a class="applink" href = "usersEventsView.php">Events</a></td>
-		<td class="applink-td"><a class="applink" href = "usersGroupsView.php">Groups</a></td>
-		<td class="applink-td"><a class="applink"> Employees </a> </td>
+		<td class="applink-td"><a class="applink" href = "projectManagersTasks.php"> Tasks </a></td>
+		<td class="applink-td"><a class="applink" href = "projectManagersEvents.php"> Events </a></td>
+		<td class="applink-td"><a class="applink" href = "projectManagersGroups.php"> Groups </a></td>
+		<td class="applink-td"><a class="applink" href = "projectManagersEmployees.php"> Employees </a></td>
 		</tr>
 	</table>
 </body>
