@@ -23,7 +23,7 @@ $tempUserID = $_SESSION['userID'];
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="grouManagersIndex.php">Back to Index</a>
+				<a href="groupManagersIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div>
