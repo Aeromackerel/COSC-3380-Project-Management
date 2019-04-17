@@ -29,54 +29,7 @@ $tempUserID = $_SESSION['userID'];
 		</div>
 	</div>
 
-  <!----- Inline form to assign employee's new tasks ----->
-	<form class = "form-inline" method = post>
-		<label class = "sr-only" for = "inlineFormInputName2"> eventName </label>
-		<input type = "text" name = "eventNameCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Event Name">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Description </label>
-		<input type="text" name = "descriptionCreate" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Description">
-
-    <label class = "sr-only" for = "inlineFormInputName2"> Location </label>
-		<input type = "text" name = "locationCreate" class = "form-control mb-2 mr-sm-2" id = "inlineFormInputName2" placeholder = "Location">
-
-		<label class = "sr-only" for = "inlineFormInputName2"> Start Date (YYYY-MM-DD) </label>
-		<input type = "text" name = "startDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "Start Date">
-
-    <label class = "sr-only" for = "inlineFormInputName2"> End Date (YYYY-MM-DD) </label>
-		<input type = "text" name = "endDateCreate" class = "form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder = "End Date">
-
-
-            <button type = "submit" class = "btn btn-primary nam" name = "submit-button"> Add Event </button>
-	</form>
-
-
-	<!----- PHP section to ADD a new Task ----->
-	<?php
-	if (isset($_POST['submit-button']))
-	{
-
-	// Connection to the DB
-
-	include "../../includes/dbconnect.ini.php";
-
-	// Using form data to create the entity in the table
-
-	$eventName = $_POST['eventNameCreate'];
-  $location = $_POST['locationCreate'];
-	$endDate = $_POST['endDateCreate'];
-  $startDate = $_POST['startDateCreate'];
-	$description = $_POST['descriptionCreate'];
-
-	$sqlCreateQuery = "INSERT INTO Events(eventName, startDateTime, endDateTime, locationEvent, descriptionEvent, deleteFlagStatus)
-	VALUES('$eventName', '$startDate', $endDate, '$location', '$description', 0)";
-
-	$stmt=$conn->query($sqlCreateQuery);
-
-	}
-
-
-	?>
+  <a href = 'actions/addEventsGroupManagers.php'><button type="button" name = "addTask" class="btn btn-success float-right btn-space">Add Task</button> </a>
 
 	<table class = "table">
 	<thead>
