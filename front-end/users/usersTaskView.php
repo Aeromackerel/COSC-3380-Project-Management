@@ -5,7 +5,7 @@ session_start();
 
 // If user isn't logged in then they will be redirected back to the log in page.
 
-if (!$_SESSION['loggedin']) 
+if (!$_SESSION['loggedin'])
 {header ("Location: ../login.php");}
 
 $tempUserID = (int)$_SESSION['userID'];
@@ -30,14 +30,13 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<a href="userIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
-
 	<center>
 	<form method = "post">
 	<div class = "form-row align-items-center">
 		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
- 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button>
  	</div>
  	</form>
  	</center>
@@ -55,6 +54,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<th></th>
 			</tr>
 		</thead>
+
 		<tbody>
 
 
@@ -78,6 +78,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 				$stmt2 = $conn->query($sqlTwo);
 
+//
 			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
 			    {
 			    		echo "<tr>

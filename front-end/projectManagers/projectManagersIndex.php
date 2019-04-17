@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
 ?>
 
@@ -17,13 +17,12 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="timesheet/01262019.html">Timesheet</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 	<table id="applink-table">
-		
+
 		<tr>
 		<td class="applink-td" style="height:250px"><a href="../timesheets/timesheet.php" class="applink">Timesheet</a></td>
 		<td class="applink-td" style="height:250px"><a href = "projectManagersEmployeeReport.php" class="applink"> Employees Report </a> </td>
