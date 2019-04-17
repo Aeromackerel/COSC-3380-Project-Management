@@ -1,4 +1,7 @@
 Project Management Web-APP
+
+WARNING* WEBSITE IS BUGGED RN - localhosting until then
+
 Minimalistic project management app with role-based views
 
 Built on : PHP, HTML5/CSS, SQL-DB
