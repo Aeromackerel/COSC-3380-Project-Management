@@ -20,7 +20,7 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="../timesheets/01262019.html">Timesheet</a>
+				<a href="../timesheet/timesheet.php">Timesheet</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div>
@@ -28,7 +28,7 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 
 	<table id="applink-table">
 		<tr>
-		<td class="applink-td"><a href="../timesheets/01262019.html" class="applink">Timesheet</a></td>
+		<td class="applink-td"><a href="../timesheet/timesheet.php" class="applink">Timesheet</a></td>
 		<td class="applink-td"><a class="applink" href = "groupManagersTimeApprovals">Timesheet Approvals</a></td>
 		<td class="applink-td"><a class="applink" href = "groupManagersTask.php">Tasks</a></td>
 		<td class="applink-td"><a class="applink" href = "groupManagersTasksOverview.php"> Tasks Report</a></td>
