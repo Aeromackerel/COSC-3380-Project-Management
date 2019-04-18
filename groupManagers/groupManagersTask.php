@@ -89,7 +89,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 						<td>".$row2['statusNotes']."</td>
 						<td>".$row2['startDate']."</td>
 						<td>".$row2['desiredEndDateTime']."</td>
-						<td>  <a href='actions/editTasksUsers.php?edit=$row2[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
+						<td>  <a href='actions/editTasksGroupManagersSelf.php?edit=$row2[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
 						</td> </tr>";
 			    }
 
@@ -113,7 +113,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 					<td>".$row['statusNotes']."</td>
 					<td>".$row['startDate']."</td>
 					<td>".$row['desiredEndDateTime']."</td>
-					<td>  <a href='actions/editTasksUsers.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
+					<td>  <a href='actions/editTasksGroupManagersSelf.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
 					</td> </tr>";
 				}
 
