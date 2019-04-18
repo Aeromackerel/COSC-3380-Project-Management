@@ -1,10 +1,10 @@
 Project Management Web-APP
 
-WARNING* WEBSITE IS BUGGED RN - localhosting until then
-
 Minimalistic project management app with role-based views
 
-Built on : PHP, HTML5/CSS, SQL-DB
+Built on : PHP, HTML5/CSS, SQL-DB, Some JS scripts
+
+Utilizing Bootstrap4 CSS sheet
 
 Description: web-based application meant to streamline contemporary problems within managing projects.
 
@@ -21,6 +21,7 @@ Description: web-based application meant to streamline contemporary problems wit
 6) Log in using either 
 email : genUser@gmail.com	password : mango90 (General Employee ACCESS)
 email : groupManager@gmail.com password : 123 (Group Manager ACCESS)
+email : projectManager@gmail.com password: 12345 (Project Manager ACCESS)
 
 If you're having problems finding driver
 
