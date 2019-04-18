@@ -4,20 +4,18 @@
 session_start();
 
 // If user isn't logged in then they will be redirected back to the log in page.
-
-if (!$_SESSION['loggedin']) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
-
 $tempUserID = (int)$_SESSION['userID'];
 
 // Creating Enumerated types via arrays
 $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Finished", "Finished");
 
-
 ?>
 
+<!--- HTML SECTION ----->
 <!DOCTYPE HTML>
-<link rel = "stylesheet" href = "../users/bootstrap.css">
+<link rel = "stylesheet" href = "../bootstrap.css">
 <title> Tasks Overview </title>
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
@@ -25,17 +23,17 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="userIndex.php">Back to Index</a>
+				<a href="projectManagersIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 
 	<center>
 	<form method = "post">
 	<div class = "form-row align-items-center">
 		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
- 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button>
  	</div>
  	</form>
  	</center>
@@ -110,7 +108,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 					<td>".$row['statusNotes']."</td>
 					<td>".$row['startDate']."</td>
 					<td>".$row['desiredEndDateTime']."</td>
-					<td>  <a href='actions/editTasksUsers.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
+					<td>  <a href='actions/editTasksProjectManagement.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
 					</td> </tr>";
 				}
 
@@ -121,7 +119,6 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 		</tbody>
 	</table>
-
 
 </body>
 
