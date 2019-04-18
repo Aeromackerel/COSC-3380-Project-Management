@@ -33,7 +33,6 @@ $tempUserID = $_SESSION['userID'];
 				<th> Location </th>
 				<th> Start Date</th>
 				<th> End Date</th>
-				<th> Add users</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,6 +53,7 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['startDateTime']."</td>
 				<td>".$row['endDateTime']."</td>
 				<td> <a href='actions/addEventUsers.php?edit=$row[eventId]><button type= button name = 'Add users' class='btn btn-info'> Add Users to Event</button></a> <br></td>
+				<td> <button type = submit name = 'flag' class = 'btn btn-danger'> Flag for Deletion </button> </td>
 				</tr>"
 				;
 		}
