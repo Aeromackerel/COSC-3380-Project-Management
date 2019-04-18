@@ -15,7 +15,11 @@ $projectId = (int)$_GET['report'];
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
 
-
+//total Hours
+$sqlTotalHoursQuery = "SELECT SUM(weeklyHoursTotal) as allHours FROM Timesheet WHERE projectId = $projectId";
+$stmt6 = $conn->query($sqlTotalHoursQuery);
+$row6 = $stmt6->fetch(PDO::FETCH_ASSOC);
+$totalHours = $row6['allHours'];
 
 //total tasks
 $sqlTotalProjectTasksQuery = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
@@ -43,6 +47,7 @@ $stmt5 = $conn->query($sqlProjectTasksCompletedQuery);
 $row5 = $stmt5->fetch(PDO::FETCH_ASSOC);
 $tasksNotStarted = $row5['notStartedTasks'];
 
+// thanks to https://canvasjs.com/php-charts/
 $dataPoints = array(
 	array("label"=>"Complete", "y"=>100*$tasksCompleted/$totalTasks),
 	array("label"=>"In Progress", "y"=>100*$tasksInProgress/$totalTasks),
@@ -112,31 +117,36 @@ chart.render();
 		?>
 
 		<center> <label> Total Hours put into Project </label> </center>
+		<center>
+			<?php
+				echo "<p>".$totalHours."</p>";
+			?>
+		</center>
 
 		<center> <label> Total Tasks </label> </center>
 		<center>
 			<?php
-				echo "<p>".$row2['totalTasks']."</p>";
+				echo "<p>".$totalTasks."</p>";
 			?>
 		</center>
 		<center> <label> Tasks Complete </label> </center>
 		<center>
 			<?php
-			echo "<p>".$row3['completedTasks']."</p>";
+			echo "<p>".$tasksCompleted."</p>";
 			?>
 		</center>
 
 		<center> <label> Tasks In Progress </label> </center>
 		<center>
 			<?php
-			echo "<p>".$row4['progressTasks']."</p>";
+			echo "<p>".$tasksInProgress."</p>";
 			?>
 		</center>
 
 		<center> <label> Tasks not started </label> </center>
 		<center>
 			<?php
-			echo "<p>".$row5['notStartedTasks']."</p>";
+			echo "<p>".$tasksNotStarted."</p>";
 			?>
 		</center>
 
