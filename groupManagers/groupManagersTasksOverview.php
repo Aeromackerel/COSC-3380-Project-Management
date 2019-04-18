@@ -46,10 +46,12 @@ $tempUserID = $_SESSION['userID'];
 		<thead>
 			<tr>
 				<th> Task name </th>
+				<th> Related to Project </th>
 				<th> Employee Name </th>
 				<th> Status </th>
 				<th> Status Notes </th>
 				<th> Start Date </th>
+				<th> Estimated End Date </th>
 				<th> Actual End Date </th>
 			</tr>
 		</thead>
@@ -64,58 +66,130 @@ $tempUserID = $_SESSION['userID'];
 			include "../../includes/dbconnect.ini.php";
 
 			// Boolean to check whether or not the search Task was pressed
-			$statusName = array("", "No progress", "Started", "Almost Finished", "Stuck", "Finished");
+			$statusName = array("", "No progress", "Early Stages", "In Progress", "Almost Finished", "Finished");
+
+			// Array for groupId
+			$groupManagerArray = array();
+
+			$sqlFindGroups = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
+
+			$stmt = $conn->query($sqlFindGroups);
+
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+			{array_push ($groupManagerArray, $row['groupId']);}
 
 			$searchBool = false;
 
 			if (isset($_POST['searchTask']))
-				{$searchBool = true;}
+			{
+				// Look for groupIds of the groupManager
 
-			// Search for the Task given by the user
+				$sqlOne = "SELECT groupId From GroupsUsers WHERE employeeId = $tempUserID";
 
-			    if($searchBool == true)
-			    {
-			    $sqlTwo = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+				$stmtOne = $conn->query($sqlOne);
 
-				$stmt2 = $conn->query($sqlTwo);
+				// While loop to pull all the employee Ids using the given groupId
 
-			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
-			    {
-			    		echo "<tr>
-						<td>".$row2['taskName']."</td>
-						<td>".$row2['description']."</td>
-						<td>".$statusName[$row2['status']]."</td>
-						<td>".$row2['statusNotes']."</td>
-						<td>".$row2['startDate']."</td>
-						<td>".$row2['desiredEndDateTime']."</td>
+				while ($rowOne = $stmtOne->fetch(PDO::FETCH_ASSOC))
+				{
+					$sqlTwo = "SELECT employeeId FROM GroupsUsers WHERE groupId = $rowOne[groupId]";
+
+					$stmtTwo = $conn->query($sqlTwo);
+
+					while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
+					{
+						// Query for Task information
+
+						$sqlThree = "SELECT taskId, projectId, employeeId, taskName, startDate, actualEndDateTime, desiredEndDateTime, description, status, statusNotes FROM Tasks WHERE employeeId = $rowTwo[employeeId] AND employeeId != $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+
+						$stmtThree = $conn->query($sqlThree);
+
+						while ($rowThree = $stmtThree->fetch(PDO::FETCH_ASSOC))
+						{
+							// Query for project Name
+
+							$sqlThreeProject = "SELECT projectName FROM Projects WHERE projectId = $rowThree[projectId]";
+
+							$stmtThreeProject = $conn->query($sqlThreeProject);
+
+							$rowThreeProject = $stmtThreeProject->fetch(PDO::FETCH_ASSOC);
+
+							// Query for employee Names
+
+							$sqlThreeEmployee = "SELECT firstName, lastName FROM Employees WHERE employeeId = $rowThree[employeeId]";
+
+							$stmtThreeEmployee = $conn->query($sqlThreeEmployee);
+
+							$rowThreeEmployee = $stmtThreeEmployee->fetch(PDO::FETCH_ASSOC);
+
+						echo "<tr>
+						<td>".$rowThree['taskName']."</td>
+						<td>".$rowThreeProject['projectName']."</td>
+						<td>".$rowThreeEmployee['firstName']." ".$rowThreeEmployee['lastName']."</td>
+						<td>".$statusName[$rowThree['status']]."</td>
+						<td>".$rowThree['statusNotes']."</td>
+						<td>".$rowThree['startDate']."</td>
+						<td>".$rowThree['desiredEndDateTime']."</td>
+						<td>".$rowThree['actualEndDateTime']."</td>
 						</td> </tr>";
-			    }
 
+						}
+
+					}
+				}
 			}
 
 			// Query for everything else - CHANGE THIS PART, so we can query for all employees that are related in a group
 
 			else{
 
-				// Query for userID with the session email that we have from the session
-
-				$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
-
-				// Prints to the table so what they have
-
-				$stmt = $conn->query($sqlOne);
-				while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+				foreach($groupManagerArray as $groupID)
 				{
-					echo "<tr>
-					<td>".$row['taskName']."</td>
-					<td>".$row['description']."</td>
-					<td>".$statusName[$row['status']]."</td>
-					<td>".$row['statusNotes']."</td>
-					<td>".$row['startDate']."</td>
-					<td>".$row['desiredEndDateTime']."</td>
-					</td> </tr>";
-				}
+					$sqlTwo = "SELECT employeeId FROM GroupsUsers WHERE groupId = $groupID";
 
+					$stmtTwo = $conn->query($sqlTwo);
+
+					while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
+					{
+						// Query for Task information
+
+						$sqlThree = "SELECT taskId, projectId, employeeId, taskName, startDate, actualEndDateTime, desiredEndDateTime, description, status, statusNotes FROM Tasks WHERE employeeId = $rowTwo[employeeId] AND employeeId != $tempUserID";
+
+						$stmtThree = $conn->query($sqlThree);
+
+						while ($rowThree = $stmtThree->fetch(PDO::FETCH_ASSOC))
+						{
+							// Query for project Name
+
+							$sqlThreeProject = "SELECT projectName FROM Projects WHERE projectId = $rowThree[projectId]";
+
+							$stmtThreeProject = $conn->query($sqlThreeProject);
+
+							$rowThreeProject = $stmtThreeProject->fetch(PDO::FETCH_ASSOC);
+
+							// Query for employee Names
+
+							$sqlThreeEmployee = "SELECT firstName, lastName FROM Employees WHERE employeeId = $rowThree[employeeId]";
+
+							$stmtThreeEmployee = $conn->query($sqlThreeEmployee);
+
+							$rowThreeEmployee = $stmtThreeEmployee->fetch(PDO::FETCH_ASSOC);
+
+						echo "<tr>
+						<td>".$rowThree['taskName']."</td>
+						<td>".$rowThreeProject['projectName']."</td>
+						<td>".$rowThreeEmployee['firstName']." ".$rowThreeEmployee['lastName']."</td>
+						<td>".$statusName[$rowThree['status']]."</td>
+						<td>".$rowThree['statusNotes']."</td>
+						<td>".$rowThree['startDate']."</td>
+						<td>".$rowThree['desiredEndDateTime']."</td>
+						<td>".$rowThree['actualEndDateTime']."</td>
+						</td> </tr>";
+
+						}
+
+					}
+				}
 			}
 			?>
 
