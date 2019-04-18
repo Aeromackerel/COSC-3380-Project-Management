@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
 
 // Store session
@@ -30,7 +30,7 @@ $projectId = (int)$_GET['report'];
 				<a href="../projectManagersIndex.php"> Back to Index </a>
 				<a href="../../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 
 	<div id = "login-container" class = "ui-container">
@@ -54,9 +54,27 @@ $projectId = (int)$_GET['report'];
 	<center> <label> Total Hours put into Project </label> </center>
 
 	<center> <label> Total Tasks </label> </center>
+	<center>
+  <?php
+	$sqlProjectTasksQ = "SELECT * FROM Tasks WHERE projectId = $projectId";
 
+	$stmt = $conn->query($sqlProjectTasksQ);
+	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+	echo "<p>".count($row)."</p>";
+	 ?>
+ </center>
 	<center> <label> Tasks Complete </label> </center>
 
+	<center>
+	<?php
+	$completestatus=0;
+	$sqlProjectTasksQ2 = "SELECT * FROM Tasks WHERE projectId = $projectId AND status = $completestatus";
+
+	$stmt2 = $conn->query($sqlProjectTasksQ2);
+	$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+	echo "<p>".count($row2)."</p>";
+	 ?>
+	</center>
 	<center> <label> Tasks In Progress </label> </center>
 
 	<center> <label> Tasks not started </label> </center>
