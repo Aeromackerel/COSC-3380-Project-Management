@@ -25,8 +25,8 @@ $projectId = (int)$_GET['report'];
 <body>
 	<div id="header" class="ui-container">
 		<div class="nav">
-		   <button class="nav-hover">Menu</button>
-		   <div class="nav-links">
+			<button class="nav-hover">Menu</button>
+			<div class="nav-links">
 				<a href="../projectManagersIndex.php"> Back to Index </a>
 				<a href="../../actionLogOut.php">Sign out</a>
 			</div>
@@ -35,49 +35,50 @@ $projectId = (int)$_GET['report'];
 
 	<div id = "login-container" class = "ui-container">
 
-	<?php
+		<?php
 
-	// Include DB Connection
+		// Include DB Connection
 
-	include "../../../includes/dbconnect.ini.php";
+		include "../../../includes/dbconnect.ini.php";
 
-	$sqlProjectNameQuery = "SELECT projectName FROM Projects WHERE projectId = $projectId";
+		$sqlProjectNameQuery = "SELECT projectName FROM Projects WHERE projectId = $projectId";
 
-	$stmt = $conn->query($sqlProjectNameQuery);
+		$stmt = $conn->query($sqlProjectNameQuery);
 
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
+		echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
 
-	?>
+		?>
 
-	<center> <label> Total Hours put into Project </label> </center>
+		<center> <label> Total Hours put into Project </label> </center>
 
-	<center> <label> Total Tasks </label> </center>
-	<center>
-  <?php
-	$sqlProjectTasksQ = "SELECT * FROM Tasks WHERE projectId = $projectId";
+		<center> <label> Total Tasks </label> </center>
+		<center>
+			<?php
+			//$sqlProjectTasksQ = "SELECT COUNT(taskId) FROM Tasks WHERE projectId = $projectId";
+			$sqlProjectTasksQ = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
+			$stmt2 = $conn->query($sqlProjectTasksQ);
+			$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+			//echo "<p>".$row2[0]."</p>";
+			echo "<p>".$row2['totalTasks']."</p>";
+			?>
+		</center>
+		<center> <label> Tasks Complete </label> </center>
 
-	$stmt = $conn->query($sqlProjectTasksQ);
-	$row = $stmt->fetch(PDO::FETCH_ASSOC);
-	echo "<p>".count($row)."</p>";
-	 ?>
- </center>
-	<center> <label> Tasks Complete </label> </center>
+		<center>
+			<?php
+			$completestatus=0;
+			$sqlProjectTasksQ2 = "SELECT * FROM Tasks WHERE projectId = $projectId AND status = $completestatus";
 
-	<center>
-	<?php
-	$completestatus=0;
-	$sqlProjectTasksQ2 = "SELECT * FROM Tasks WHERE projectId = $projectId AND status = $completestatus";
+			$stmt3 = $conn->query($sqlProjectTasksQ2);
+			$row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
+			echo "<p>".count($row3)."</p>";
+			?>
+		</center>
+		<center> <label> Tasks In Progress </label> </center>
 
-	$stmt2 = $conn->query($sqlProjectTasksQ2);
-	$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-	echo "<p>".count($row2)."</p>";
-	 ?>
-	</center>
-	<center> <label> Tasks In Progress </label> </center>
-
-	<center> <label> Tasks not started </label> </center>
+		<center> <label> Tasks not started </label> </center>
 
 	</div>
 
