@@ -14,6 +14,8 @@ $roleID = (int)$_SESSION['roleID'];
 $projectId = (int)$_GET['report'];
 
 
+
+
 ?>
 
 <!----- HTML SECTION ----->
@@ -57,28 +59,47 @@ $projectId = (int)$_GET['report'];
 		<center>
 			<?php
 			//$sqlProjectTasksQ = "SELECT COUNT(taskId) FROM Tasks WHERE projectId = $projectId";
-			$sqlProjectTasksQ = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
-			$stmt2 = $conn->query($sqlProjectTasksQ);
+			$sqlTotalProjectTasksQuery = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
+			$stmt2 = $conn->query($sqlTotalProjectTasksQuery);
 			$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-			//echo "<p>".$row2[0]."</p>";
+			//echo "<p>".$row2['']."</p>";
 			echo "<p>".$row2['totalTasks']."</p>";
 			?>
 		</center>
 		<center> <label> Tasks Complete </label> </center>
-
 		<center>
 			<?php
-			$completestatus=0;
-			$sqlProjectTasksQ2 = "SELECT * FROM Tasks WHERE projectId = $projectId AND status = $completestatus";
+			$completeStatus=5;
+			$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as completedTasks FROM Tasks WHERE projectId = $projectId AND status = $completeStatus";
 
-			$stmt3 = $conn->query($sqlProjectTasksQ2);
+			$stmt3 = $conn->query($sqlProjectTasksCompletedQuery);
 			$row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
-			echo "<p>".count($row3)."</p>";
+			echo "<p>".$row3['completedTasks']."</p>";
 			?>
 		</center>
+
 		<center> <label> Tasks In Progress </label> </center>
+		<center>
+			<?php
+			$sqlProjectTasksInProgressQuery = "SELECT COUNT(taskId) as progressTasks FROM Tasks WHERE projectId = $projectId AND (status = 2 OR status = 3 OR status = 4)";
+
+			$stmt3 = $conn->query($sqlProjectTasksInProgressQuery);
+			$row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
+			echo "<p>".$row3['progressTasks']."</p>";
+			?>
+		</center>
 
 		<center> <label> Tasks not started </label> </center>
+		<center>
+			<?php
+			$notStartedStatus=1;
+			$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as notStartedTasks FROM Tasks WHERE projectId = $projectId AND status = $notStartedStatus";
+
+			$stmt3 = $conn->query($sqlProjectTasksCompletedQuery);
+			$row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
+			echo "<p>".$row3['notStartedTasks']."</p>";
+			?>
+		</center>
 
 	</div>
 
