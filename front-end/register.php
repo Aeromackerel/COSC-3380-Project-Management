@@ -14,7 +14,7 @@
 			</div>
 		</div> 
 	</div>
-
+	
 	<div id="register-container" class="ui-container">
 		<center>
 			<form action="register.php" method="post">
