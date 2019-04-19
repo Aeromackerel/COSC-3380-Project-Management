@@ -4,7 +4,7 @@
 
 	// If user isn't logged in then they will be redirected back to the log in page.
 
-	if (!$_SESSION['loggedin'])
+	if (!$_SESSION['loggedin']) 
 	{header ("Location: ../../login.php");}
 
 	$tempUserID = (int)$_SESSION['userID'];
@@ -42,8 +42,8 @@
 
  	else if (isset($_POST['goBack']))
  	{header ("Location: ../usersTaskView.php");}
-
-
+ 	
+	
 
 ?>
 
@@ -71,7 +71,7 @@
 		   <input type = "text" class = "form-control" name = "statusNoteCreate" placeholder = "Not available">
 
 		   <label for = "endDate"> Expected End Date </label>
-		   <input type = "date" class = "form-control" name= "endDateCreate" placeholder = "2019-05-01">
+		   <input type = "date" class = "form-control" name= "endDateCreate" placeholder = "2019-05-01">	
 
 		<label class="mr-sm-2" for="inlineFormCustomSelect">Under Project</label>
 		<select class="custom-select mr-sm-2" name = "relatedProjectCreate" id="inlineFormCustomSelect">

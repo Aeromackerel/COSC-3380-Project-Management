@@ -5,7 +5,7 @@ session_start();
 
 // If user isn't logged in then they will be redirected back to the log in page.
 
-if (!$_SESSION['loggedin'])
+if (!$_SESSION['loggedin']) 
 {header ("Location: ../login.php");}
 
 $tempUserID = (int)$_SESSION['userID'];
@@ -30,13 +30,14 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<a href="userIndex.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div>
+		</div> 
 	</div>
+
 	<center>
 	<form method = "post">
 	<div class = "form-row align-items-center">
 		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
- 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button>
+ 		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
  	</div>
  	</form>
  	</center>
@@ -46,6 +47,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 		<thead>
 			<tr>
 				<th> Task name </th>
+				<th> Belongs to Project </th>
 				<th> Description </th>
 				<th> Status </th>
 				<th> Status Notes </th>
@@ -54,7 +56,6 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<th></th>
 			</tr>
 		</thead>
-
 		<tbody>
 
 
@@ -74,15 +75,21 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 			    if($searchBool == true)
 			    {
-			    $sqlTwo = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+			    $sqlTwo = "SELECT taskId, projectId,  taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
 
 				$stmt2 = $conn->query($sqlTwo);
 
-//
 			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
 			    {
+
+					$sqlFindProject = "SELECT projectName FROM Projects WHERE projectId = $row2[projectId]";
+
+					$stmtFindProject = $conn->query($sqlFindProject);
+
+					$rowFindProject = $stmtFindProject->fetch(PDO::FETCH_ASSOC);
 			    		echo "<tr>
 						<td>".$row2['taskName']."</td>
+						<td>".$rowFindProject['projectName']."</td>
 						<td>".$row2['description']."</td>
 						<td>".$statusName[$row2['status']]."</td>
 						<td>".$row2['statusNotes']."</td>
@@ -98,15 +105,25 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 				// Query for userID with the session email that we have from the session
 
-				$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
+				$sqlOne = "SELECT taskId, projectId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
 
 				// Prints to the table so what they have
 
 				$stmt = $conn->query($sqlOne);
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 				{
+
+					$sqlFindProject = "SELECT projectName FROM Projects WHERE projectId = $row[projectId]";
+
+					$stmtFindProject = $conn->query($sqlFindProject);
+
+					$rowFindProject = $stmtFindProject->fetch(PDO::FETCH_ASSOC);
+
+
+
 					echo "<tr>
 					<td>".$row['taskName']."</td>
+					<td>".$rowFindProject['projectName']."</td>
 					<td>".$row['description']."</td>
 					<td>".$statusName[$row['status']]."</td>
 					<td>".$row['statusNotes']."</td>

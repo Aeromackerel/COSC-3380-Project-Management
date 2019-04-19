@@ -47,6 +47,7 @@ $searchBool = false;
 		<thead>
 			<tr>
 				<th> Belongs to Group </th>
+				<th> Belongs to Project </th>
 				<th> Group Member's Name </th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
@@ -109,9 +110,14 @@ $searchBool = false;
 				while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC))
 				{
 
-					// Print to the table
+				$sqlFour = "SELECT projectName FROM Projects INNER JOIN ProjectUsers ON ProjectUsers.employeeId = $row3[employeeId]";
+
+				$stmt4 = $conn->query($sqlFour);
+
+				$row4 = $stmt4->fetch(PDO::FETCH_ASSOC);
 
 				echo "<tr><td>".$groupName."</td>
+				<td>".$row4['projectName']."</td>
 				<td>".$row3['firstName']." ".$row3['lastName']."</td>
 				<td>".$row3['email']."</td>
 				<td>".$row3['phoneNumber']."</td>
