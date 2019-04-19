@@ -29,16 +29,16 @@ $tempUserID = $_SESSION['userID'];
 	</div>
 	<center>
 	<form method = "post">
-	
-
-
-	<a href = 'actions/addTasksGroupManagersEmployee.php'><button type="button" name = "addTask" class="btn btn-success float-right btn-space">Add Task</button> </a>
 	<div class = "form-row align-items-center">
 		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Task">
  		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
  	</div>
  	</form>
  	</center>
+
+
+	<a href = 'actions/addTasksGroupManagersEmployee.php'><button type="button" name = "addTask" class="btn btn-success float-right btn-space">Add Task</button> </a>
+
 
 	<!---- Left join on Employees/Tasks table ----->
 
