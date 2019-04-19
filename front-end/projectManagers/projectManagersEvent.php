@@ -10,7 +10,7 @@ $tempUserID = $_SESSION['userID'];
 ?>
 
 <title> Events Overview </title>
-<link rel = "stylesheet" href = "../bootstrap.css">
+<link rel = "stylesheet" href = "bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
 	<div id="header" class="ui-container">
@@ -22,9 +22,6 @@ $tempUserID = $_SESSION['userID'];
 			</div>
 		</div>
 	</div>
-
-	<a href = 'actions/addEventsProjectManagers.php'><button type="button" name = "addEvent" class="btn btn-success float-right btn-space">Add Event</button> </a>
-
 	<table class = "table">
 	<thead>
 			<tr>
@@ -37,12 +34,12 @@ $tempUserID = $_SESSION['userID'];
 		</thead>
 		<tbody>
 
-		<!--- DB Connection and Query ----->
+		<!----- DB Connection and Query ----->
 		<?php
 		// Connection to Database
 		include "../../includes/dbconnect.ini.php";
 		// Query for UserID related to the Event and display the data
-		$sqlOne = "SELECT Events.eventId, eventName, descriptionEvent, locationEvent, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID ORDER BY startDateTime";
+		$sqlOne = "SELECT eventName, descriptionEvent, locationEvent, startDateTime, endDateTime FROM Events LEFT JOIN EventsUsers ON EventsUsers.eventId = Events.eventId WHERE EventsUsers.employeeId = $tempUserID ORDER BY startDateTime";
 		// Querying and printing to the table
 		$stmt = $conn->query($sqlOne);
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
@@ -52,9 +49,6 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['locationEvent']."</td>
 				<td>".$row['startDateTime']."</td>
 				<td>".$row['endDateTime']."</td>
-				<td> <a href='actions/addEventUsersProjectManagement.php?edit=$row[eventId]&alert=0'>
-				<button type= button name = 'Add users' class='btn btn-info'> Add Users to Event</button></a> <br></td>
-				<td> <button type = submit name = 'flag' class = 'btn btn-danger'> Flag for Deletion </button> </td>
 				</tr>"
 				;
 		}
@@ -72,4 +66,9 @@ $tempUserID = $_SESSION['userID'];
 		</tbody>
 	</table>
 
+	<div id="footer" class="ui-container">
+		<p>footer link</p>
+		<p>footer link</p>
+		<p>footer link</p>
 	</div>
+</body>

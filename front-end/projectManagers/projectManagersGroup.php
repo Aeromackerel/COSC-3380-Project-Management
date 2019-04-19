@@ -14,7 +14,7 @@ $searchBool = false;
 
 <!DOCTYPE HTML>
 
-<title> Project Overview </title>
+<title> Groups Overview </title>
 <link rel = "stylesheet" href = "../users/bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
@@ -32,9 +32,9 @@ $searchBool = false;
 <table class = "table">
 		<thead>
 			<tr>
-				<th> Employee's Name </th>
-				<th> Email</th>
-				<th> Phone Number</th>
+				<th> Group Member's Name </th>
+				<th> Group Member's Email</th>
+				<th> Group Member's Phone Number</th>
 				<th> Role </th>
 			</tr>
 		</thead>
@@ -46,14 +46,14 @@ $searchBool = false;
 		<?php
 		include "../../includes/dbconnect.ini.php";
 		// Creating Enumerated types via arrays again
-		$roleIdArray = array("", "Basic Employee", "Manager", "Project Manager");
-		// Query for initial Projects that the user is involved in
-		$sqlOne = "SELECT projectId FROM ProjectUsers WHERE employeeId = $tempUserID";
+		$roleIdArray = array("", "", "Manager", "Project Manager");
+		// Query for initial Groups that the user is involved in
+		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
 		$stmt = $conn->query($sqlOne);
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-		// Query for all employeeIds - given the projects that they're involved in
-		$sqlTwo = "SELECT DISTINCT employeeId FROM ProjectUsers WHERE projectId = $row[projectId]";
+		// Query for all employeeIds - given the groups that they're involved in
+		$sqlTwo = "SELECT employeeId FROM GroupsUsers WHERE groupId = $row[groupId]";
 		// Query for the information and output to the table
 		$stmt2 = $conn->query($sqlTwo);
 			// Query for all employee information given the employeeIds we queried from earlier

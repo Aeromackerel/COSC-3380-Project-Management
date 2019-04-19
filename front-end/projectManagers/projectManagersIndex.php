@@ -40,6 +40,10 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 			<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersGroups.php"> Groups </a></td>
 			<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersEmployees.php"> Employees </a></td>
 		</tr>
+
+		<tr>
+			<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersProject.php"> Projects </a></td>
+		</tr>
 	</table>
 </body>
 </html>

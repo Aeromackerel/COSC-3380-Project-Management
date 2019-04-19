@@ -2,15 +2,11 @@
 <!----- PHP Section ----->
 
 <?php
-
 	// Include DB connection
  	include "../../../includes/dbconnect.ini.php";
-
  	// Button pressed boolean
  	$buttonPressedBool = false;
-
  	// If edit button is pressed -> take them to a separate page with taskId in the bar
-
  	if (isset($_GET['edit']))
  	{
  		$id = (int)$_GET['edit'];
@@ -18,41 +14,28 @@
  		$stmt = $conn->query($query);
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
  	}
-
  	// Update the table in SQL with inputted information - cast int to make sure no errors
-
  	if (isset($_POST['submitChanges']))
  	{
  		$descriptionChange = $_POST['descriptionChange'];
  		$statusChange = (int) $_POST['statusChange'];
-
  		// Add something to check if a user just started a task or not
-
  		$queryUpdate = "UPDATE Tasks SET description = '$descriptionChange', status = $statusChange WHERE taskId = $row[taskId]";
  		$stmt = $conn->query($queryUpdate);
-
  		$buttonPressedBool = true;
-
  	}
-
  	// Flag the entity in the table
-
  	else if (isset($_POST['flagChanges']))
  	{
  		$queryFlag = "UPDATE Tasks SET deleteFlagStatus = 1 WHERE taskId = $row[taskId]";
  		$stmt2 = $conn->query($queryFlag);
-
  		$buttonPressedBool = true;
  	}
  	else if (isset($_POST['goBack']))
  	{$buttonPressedBool = true;}
-
  	// Redirects user back to old page once pressed
-
  	if ($buttonPressedBool == true)
  	{ header ("Location: ../projectManagersTasks.php");}
-
-
 ?>
 
 

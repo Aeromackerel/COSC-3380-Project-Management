@@ -5,15 +5,10 @@
 	// If user isn't logged in then they will be redirected back to the log in page.
 	if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 	{header ("Location: ../../login.php");}
-
 	$tempUserID = (int)$_SESSION['userID'];
-
-
 	// Include DB connection
  	include "../../../includes/dbconnect.ini.php";
-
  	// If button is pressed then we'll generate the task
-
  	if (isset($_POST['submitChanges']))
  	{
  		$taskName = $_POST['taskNameCreate'];
@@ -21,30 +16,21 @@
  		$endDate =  $_POST['endDateCreate'];
  		$projectId = (int)$_POST['relatedProjectCreate'];
  		$statusNotes = $_POST['statusNoteCreate'];
-
  		$fieldsFilled = true;
-
  		// If the fields are empty
-
  		if (empty($taskName) || empty($description) || empty($endDate) || empty($projectId))
  			{$fieldsFilled = false;}
-
  		if ($fieldsFilled == true)
  		{
       $date = date("Y/m/d");
    		$sqlCreateTask = "INSERT INTO TASKS (projectId, taskName, status, statusNotes, startDate,desiredEndDateTime, description, employeeId, deleteFlagStatus) VALUES
  		($projectId, '$taskName', 1, '$statusNotes', '$date','$endDate', '$description', $tempUserID, 0)";
  		  $stmt = $conn->query($sqlCreateTask);
-
  		  header ("Location: ../projectManagersTasks.php");
  		}
  	}
-
  	else if (isset($_POST['goBack']))
  	{header ("Location: ../projectManagersTasks.php");}
-
-
-
 ?>
 
 
@@ -79,37 +65,24 @@
 			<!----- Query for projects that a user belongs to ----->
 
 			<?php
-
 				// Initialize DB connection
-
 				include "../../../includes/dbconnect.ini.php";
-
 				// Query for projects that a user is assigned to
-
 				$sqlProjectsUser = "SELECT DISTINCT projectId FROM ProjectUsers WHERE employeeId = $tempUserID";
-
 				$stmtFindProjects = $conn->query($sqlProjectsUser);
-
 				while ($rowProjectID = $stmtFindProjects->fetch(PDO::FETCH_ASSOC))
 				{
-
 				// Query for projects that a user might belong to
-
 				$sqlFindProjectsUser = "SELECT DISTINCT Projects.projectId, Projects.projectName FROM Projects INNER JOIN ProjectUsers ON Projects.projectId = $rowProjectID[projectId] ";
-
 				$stmtFindProject = $conn->query($sqlFindProjectsUser);
 				while ($rowProject = $stmtFindProject->fetch(PDO::FETCH_ASSOC))
 				{
 					unset($projectIdOption, $projectNameOption);
 					$projectIdOption = $rowProject['projectId'];
 					$projectNameOption = $rowProject['projectName'];
-
 					 echo '<option value="'.$projectIdOption.'">'.$projectNameOption.'</option>';
-
 				}
 			}
-
-
 			?>
 
       	</select>

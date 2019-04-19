@@ -2,59 +2,47 @@
 
 <?php
 session_start();
-
 if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
-
 // Store session
-
 $tempUserID = (int)$_SESSION['userID'];
 $roleID = (int)$_SESSION['roleID'];
-
 $projectId = (int)$_GET['report'];
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
-
 //total Hours
 $sqlTotalHoursQuery = "SELECT SUM(weeklyHoursTotal) as allHours FROM Timesheet WHERE projectId = $projectId";
 $stmt6 = $conn->query($sqlTotalHoursQuery);
 $row6 = $stmt6->fetch(PDO::FETCH_ASSOC);
 $totalHours = $row6['allHours'];
-
 //total tasks
 $sqlTotalProjectTasksQuery = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
 $stmt2 = $conn->query($sqlTotalProjectTasksQuery);
 $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 $totalTasks = $row2['totalTasks'];
-
 //tasks completed
 $completeStatus=5;
 $sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as completedTasks FROM Tasks WHERE projectId = $projectId AND status = $completeStatus";
 $stmt3 = $conn->query($sqlProjectTasksCompletedQuery);
 $row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
 $tasksCompleted = $row3['completedTasks'];
-
 //tasks in progress
 $sqlProjectTasksInProgressQuery = "SELECT COUNT(taskId) as progressTasks FROM Tasks WHERE projectId = $projectId AND (status = 2 OR status = 3 OR status = 4)";
 $stmt4 = $conn->query($sqlProjectTasksInProgressQuery);
 $row4 = $stmt4->fetch(PDO::FETCH_ASSOC);
 $tasksInProgress = $row4['progressTasks'];
-
 //tasks not started
 $notStartedStatus=1;
 $sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as notStartedTasks FROM Tasks WHERE projectId = $projectId AND status = $notStartedStatus";
 $stmt5 = $conn->query($sqlProjectTasksCompletedQuery);
 $row5 = $stmt5->fetch(PDO::FETCH_ASSOC);
 $tasksNotStarted = $row5['notStartedTasks'];
-
 // thanks to https://canvasjs.com/php-charts/
 $dataPoints = array(
 	array("label"=>"Complete", "y"=>100*$tasksCompleted/$totalTasks),
 	array("label"=>"In Progress", "y"=>100*$tasksInProgress/$totalTasks),
 	array("label"=>"Not Started", "y"=>100*$tasksNotStarted/$totalTasks)
-
 )
-
 ?>
 
 <!----- HTML SECTION ----->
@@ -65,8 +53,6 @@ $dataPoints = array(
 <head>
 <script>
 window.onload = function() {
-
-
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title: {
@@ -83,7 +69,6 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	}]
 });
 chart.render();
-
 }
 </script>
 </head>
@@ -106,14 +91,10 @@ chart.render();
 		<?php
 		// Include DB Connection
 		//include "../../../includes/dbconnect.ini.php";
-
 		$sqlProjectNameQuery = "SELECT projectName FROM Projects WHERE projectId = $projectId";
-
 		$stmt = $conn->query($sqlProjectNameQuery);
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
 		echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
-
 		?>
 
 		<center> <label> Total Hours put into Project </label> </center>
