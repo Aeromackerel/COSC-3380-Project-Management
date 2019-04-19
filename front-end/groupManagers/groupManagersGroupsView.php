@@ -32,6 +32,7 @@ $searchBool = false;
 <table class = "table">
 		<thead>
 			<tr>
+				<th> Related to Project </th>
 				<th> Group Member's Name </th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
@@ -46,7 +47,7 @@ $searchBool = false;
 		<?php
 		include "../../includes/dbconnect.ini.php";
 		// Creating Enumerated types via arrays again
-		$roleIdArray = array("", "", "Manager", "Project Manager");
+		$roleIdArray = array("", "Employee", "Manager", "Project Manager");
 		// Query for initial Groups that the user is involved in
 		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
 		$stmt = $conn->query($sqlOne);

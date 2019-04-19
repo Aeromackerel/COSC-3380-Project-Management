@@ -8,6 +8,12 @@ if (!$_SESSION['loggedin'])
 
 $tempUserID = $_SESSION['userID'];
 
+// If back button is pressed then we redirect
+
+if (isset($_POST['goBack']))
+{header ("Location: ../groupManagersTasksOverview.php");}
+
+
 ?>
 
 <!---- HTML Section ---->
@@ -49,13 +55,13 @@ $tempUserID = $_SESSION['userID'];
 
 			while ($rowFindGroups = $stmtFindGroups->fetch(PDO::FETCH_ASSOC))
 			{
-				$sqlFindEmployees = "SELECT Employees.employeeId, firstName, lastName FROM Employees JOIN GroupsUsers ON Employees.employeeId = GroupsUsers.employeeId WHERE GroupsUsers.groupId = $rowFindGroups[groupId]";
+				$sqlFindEmployees = "SELECT Employees.employeeId, firstName, lastName FROM Employees JOIN GroupsUsers ON Employees.employeeId = GroupsUsers.employeeId WHERE GroupsUsers.groupId = $rowFindGroups[groupId] AND GroupsUsers.employeeId != $tempUserID";
 
 				$stmtFindEmployees = $conn->query($sqlFindEmployees);
 
 				while ($rowFindEmployees = $stmtFindEmployees->fetch(PDO::FETCH_ASSOC))
 				{
-					echo '<option value="'.$rowFindEmployees[employeeId].'">'.$rowFindEmployees['firstName']." ".$rowFindEmployees['lastName'].'</option>';
+					echo '<option value="'.$rowFindEmployees['employeeId'].'">'.$rowFindEmployees['firstName']." ".$rowFindEmployees['lastName'].'</option>';
 				}
 			}
 
@@ -103,14 +109,41 @@ $tempUserID = $_SESSION['userID'];
 			?>
 
       	</select>
-      	 <button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
-		 <button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>
+		<button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
+		<button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>
 	</form>
+</div>
 
 	</center>
 </div>
 
+<?php
 
+if (isset($_POST['submitChanges']))
+{
+	$taskName = $_POST['taskNameCreate'];
+	$description = $_POST['descriptionCreate'];
+	$StatusNotes = $_POST['statusNoteCreate'];
+	$expectedEndDate = $_POST['endDateCreate'];
+	$employeeId = $_POST['relatedEmployeeCreate'];
+	$projectId = $_POST['relatedProjectCreate'];
+
+	$fieldsFilled = true;
+
+	if (empty($taskName) || empty($description) || empty($StatusNotes) || empty($expectedEndDate) || empty($employeeId) || empty($projectId))
+		{$fieldsFilled = false;}
+
+	if ($fieldsFilled == true)
+	{
+		$sqlCreateTask = "INSERT INTO Tasks (taskName, projectId, employeeId, status, deleteFlagStatus, statusNotes, desiredEndDateTime, description)
+		VALUES ('$taskName', $projectId, $employeeId, 1, 0, '$StatusNotes', '$expectedEndDate', '$description')";
+
+		$conn->query($sqlCreateTask);
+		{header ("Location: ../groupManagersTasksOverview.php");}
+	}
+
+}
+?>
 
 
 </HTML>
