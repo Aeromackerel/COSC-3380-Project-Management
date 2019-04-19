@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 {header ("Location: ../login.php");}
 
 // Store session
@@ -14,7 +14,7 @@ $roleID = (int)$_SESSION['roleID'];
 include "../../../includes/dbconnect.ini.php";
 
 $eventID = (int)$_GET['edit'];
-
+$showAlert = (int)$_GET['alert'];
 // if Buttons are pressed
 
 if (isset($_POST['goBack']))
@@ -25,12 +25,16 @@ if (isset($_POST['goBack']))
 if (isset($_POST['submitChanges']))
 {
 	$employeeId = (int)$_POST['relatedEventCreate'];
-
+	try{
 	$sqlInsert = "INSERT INTO EventsUsers(eventId, employeeId) VALUES ($eventID, $employeeId)";
 
 	$stmt = $conn->query($sqlInsert);
 
 	header("Location: ../groupManagersEventsView.php");
+	}
+	catch (Exception $e){
+		header("Location: addEventUsers.php?edit=$eventID&alert=1");
+	}
 }
 
 
@@ -54,7 +58,7 @@ if (isset($_POST['submitChanges']))
 				<a href="../groupManagersIndex.php"> Back to Index </a>
 				<a href="../../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 
 	<div id = "login-container" class = "ui-container">
@@ -63,7 +67,7 @@ if (isset($_POST['submitChanges']))
 		 <div class="form-group">
 		 	<label class="mr-sm-2" for="inlineFormCustomSelect">Employee email</label>
 			<select class="custom-select mr-sm-2" name = "relatedEventCreate" id="inlineFormCustomSelect">
-				<?php 
+				<?php
 
 				//Include DB connection file
 				include "../../../includes/dbconnect.ini.php";
@@ -84,7 +88,7 @@ if (isset($_POST['submitChanges']))
 
 					while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
 					{
-						
+
 						$sqlQueryFindEmployeeEmails = "SELECT employeeId,email FROM Employees WHERE employeeId = $row2[employeeId]";
 
 						$stmt3 = $conn->query($sqlQueryFindEmployeeEmails);
@@ -112,6 +116,10 @@ if (isset($_POST['submitChanges']))
 
 		</div>
 	</form>
+	<div id="alert" <?php if ($showAlert==0){echo 'style="display:none;"';}else{echo 'style="color:red;"';}	?>>
+		This employee is already invited to this event.
+	</div>
+
 </center>
 
 	</div>

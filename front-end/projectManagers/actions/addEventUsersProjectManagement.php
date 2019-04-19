@@ -18,7 +18,7 @@ $showAlert = (int)$_GET['alert'];
 // if Buttons are pressed
 
 if (isset($_POST['goBack']))
-{header("Location: ../projectpManagersEvents.php");}
+{header("Location: ../projectManagersEvents.php");}
 
 
 // if Buttons is pressed then we'll add a user to the given event
