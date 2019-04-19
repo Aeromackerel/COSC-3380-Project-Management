@@ -35,3 +35,5 @@ navigate to -> php.ini file and insert the following
 
 extension=php_sqlsrv_72_ts
 extension=php_pdo_sqlsrv_72_ts
+
+if that doesn't work then use the nts version
