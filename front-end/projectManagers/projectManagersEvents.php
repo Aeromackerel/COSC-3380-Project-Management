@@ -52,7 +52,7 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['locationEvent']."</td>
 				<td>".$row['startDateTime']."</td>
 				<td>".$row['endDateTime']."</td>
-				<td> <a href='actions/addEventUsersProjectManagement.php?edit=$row[eventId]&alert=false'>
+				<td> <a href='actions/addEventUsersProjectManagement.php?edit=$row[eventId]&alert=0'>
 				<button type= button name = 'Add users' class='btn btn-info'> Add Users to Event</button></a> <br></td>
 				<td> <button type = submit name = 'flag' class = 'btn btn-danger'> Flag for Deletion </button> </td>
 				</tr>"

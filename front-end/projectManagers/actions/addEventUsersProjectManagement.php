@@ -14,7 +14,7 @@ $roleID = (int)$_SESSION['roleID'];
 include "../../../includes/dbconnect.ini.php";
 
 $eventID = (int)$_GET['edit'];
-$showAlert = (boolean)$_GET['alert'];
+$showAlert = (int)$_GET['alert'];
 // if Buttons are pressed
 
 if (isset($_POST['goBack']))
@@ -34,7 +34,7 @@ if (isset($_POST['submitChanges']))
 	}
 	catch (Exception $e){
 
-		header("Location: addEventUsersProjectManagement.php?edit=$eventID&alert='true'");
+		header("Location: addEventUsersProjectManagement.php?edit=$eventID&alert=1");
 	}
 }
 
@@ -119,7 +119,7 @@ if (isset($_POST['submitChanges']))
 		</div>
 	</form>
 
-	<div id="alert" <?php if ($showAlert){echo 'style="color:red; display:none;"';} else{}	?>>
+	<div id="alert" <?php if ($showAlert==0){echo 'style="display:none;"';}else{echo 'style="color:red;"';}	?>>
 		This employee is already invited to this event.
 	</div>
 </center>
