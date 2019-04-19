@@ -7,6 +7,24 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 2)
 {header ("Location: ../login.php");}
 // Temp variable to hold $userID
 $tempUserID = $_SESSION['userID'];
+
+	// Connection to Database
+	
+	include "../../includes/dbconnect.ini.php";
+
+// Function to check if user pressed flag for deletion
+if (isset($_POST['flag']))
+{
+	$eventId = $_POST['flag'];
+
+	$sqlEventUpdate = "UPDATE Events SET deleteFlagStatus = 1 WHERE eventId = $eventId";
+
+	$stmt = $conn->query($sqlEventUpdate);
+}
+
+
+
+
 ?>
 
 <title> Events Overview </title>
@@ -52,9 +70,11 @@ $tempUserID = $_SESSION['userID'];
 				<td>".$row['locationEvent']."</td>
 				<td>".$row['startDateTime']."</td>
 				<td>".$row['endDateTime']."</td>
-				<td> <a href='actions/addEventUsers.php?edit=$row[eventId]&alert=0'><button type= button name = 'Add users' class='btn btn-info'> Add Users to Event</button></a> <br></td>
-				<td> <button type = submit name = 'flag' class = 'btn btn-danger'> Flag for Deletion </button> </td>
-				</tr>"
+				<form method = post>
+				<td> <a href='actions/addEventUsers.php?edit=$row[eventId]><button type= button name = 'Add users' class='btn btn-info'> Add Users to Event</button></a> <br></td>
+				<td> <button type = submit value = $row[eventId] name = 'flag' class = 'btn btn-danger'> Flag for Deletion </button> </td>
+				</tr>
+				</form>"
 				;
 		}
 		?>

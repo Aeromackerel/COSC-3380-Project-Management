@@ -27,7 +27,10 @@
 
  		if ($fieldsFilled == true)
  		{
- 			$sqlAddGroup = "";
+ 			$sqlRemoveGroup = "DELETE FROM GroupsUsers WHERE employeeId = $employeeId AND groupId = $groupId";
+
+ 			$stmtRemove = $conn->query($sqlRemoveGroup);
+
  			header ("Location: ../groupManagersGroupsView.php");
  		}
 
