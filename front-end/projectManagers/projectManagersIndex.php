@@ -10,7 +10,7 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 
 <!DOCTYPE HTML>
 <title>Dashboard</title>
-<link rel="stylesheet"type="text/css"href="../users/bootstrap.css">
+<link rel="stylesheet"type="text/css"href="../bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
 	<div id="header" class="ui-container">
@@ -31,7 +31,7 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 
 		<tr>
 		<td class="applink-td" style="height:250px"><a href = "projectManagersHoursReport.php" class= "applink"> Project hours Report </a> </td>
-		<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersIndividualTasks.php"> Self-Tasks </a></td>
+		<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersIndividualTasks.php"> My Tasks </a></td>
 		<td class="applink-td" style="height:250px"><a class="applink" href = "projectManagersTasks.php"> Tasks </a></td>
 				</tr>
 
