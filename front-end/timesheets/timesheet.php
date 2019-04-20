@@ -91,99 +91,38 @@
 			$thuHours = 0;//$rowhours['dayFour'];
 			$friHours = 0;//$rowhours['dayFive'];
 			$satHours = 0;//$rowhours['daySix'];
+			$hoursArray = array(0 => $sunHours, 1 => $monHours, 2 => $tueHours, 3 => $wedHours, 4 => $thuHours, 5 => $friHours, 6 => $satHours);
+			$disableArray = array();
 
+			$projName = "";
+
+			foreach ($hoursArray as $key => $value) {
+				if ($key == $dateIndex){
+					$disableArray[$key] = "";
+				}
+				else{
+					$disableArray[$key] = "disabled";
+				}
+			}
 
 			while ($rowhours = $stmtFindHours->fetch(PDO::FETCH_ASSOC)){
-				echo"<td>".$rowhours['pName']."</td>";
-				echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='";
-				if ($rowhours['weekday'] == 1){
-					$sunHours = $rowhours['hours'];
-					echo "".$sunHours."";
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 0)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Mon".$i."' value='";
-				if ($rowhours['weekday'] == 2) {
-					$monHours = $rowhours['hours'];
-					echo $monHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 1)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Tue".$i."' value='";
-				if ($rowhours['weekday'] == 3) {
-					$tueHours = $rowhours['hours'];
-					echo $tueHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 2)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Wed".$i."' value='";
-				if ($rowhours['weekday'] == 4) {
-					$wedHours = $rowhours['hours'];
-					echo $wedHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 3)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Thu".$i."' value='";
-				if ($rowhours['weekday'] == 5) {
-					$thuHours = $rowhours['hours'];
-					echo $thuHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 4)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Fri".$i."' value='";
-				if ($rowhours['weekday'] == 6) {
-					$friHours = $rowhours['hours'];
-					echo $friHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 5)
-					echo " disabled";
-				echo"></td>";
-				echo "<td><input style='width:30%;' type='text' name='Sat".$i."' value='";
-				if ($rowhours['weekday'] == 7) {
-					$satHours = $rowhours['hours'];
-					echo $satHours;
-				}
-				else{
-					echo "0";
-				}
-				echo "'";
-				if ($dateIndex != 6)
-					echo " disabled";
-				echo"></td>";
+				$hoursArray[$rowhours['weekday']-1] = $rowhours['hours'];
+				$projName = $rowhours['pName'];
+			}
 
-			echo "<td>".($sunHours+$monHours+$tueHours+$wedHours+$thuHours+$friHours+$satHours)."</td>";
+			echo"<td>".$projName."</td>";
+			echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='".$hoursArray[0]."' ".$disableArray[0]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Mon".$i."' value='".$hoursArray[1]."' ".$disableArray[1]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Tue".$i."' value='".$hoursArray[2]."' ".$disableArray[2]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Wed".$i."' value='".$hoursArray[3]."' ".$disableArray[3]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Thu".$i."' value='".$hoursArray[4]."' ".$disableArray[4]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Fri".$i."' value='".$hoursArray[5]."' ".$disableArray[5]."></td>";
+			echo "<td><input style='width:30%;' type='text' name='Sat".$i."' value='".$hoursArray[6]."' ".$disableArray[6]."></td>";
+
+			echo "<td>".array_sum($hoursArray)."</td>";
 			echo "</tr>";
 			}
-			}
+
 			?>
 		</table>
 			</br>
