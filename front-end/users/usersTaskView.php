@@ -53,6 +53,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<th> Status Notes </th>
 				<th> Start Date </th>
 				<th> Expected End Date </th>
+				<th> Actual End Date </th>
 				<th></th>
 			</tr>
 		</thead>
@@ -75,7 +76,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 			    if($searchBool == true)
 			    {
-			    $sqlTwo = "SELECT taskId, projectId,  taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+			    $sqlTwo = "SELECT taskId, projectId,  taskName, description, status, statusNotes, startDate, desiredEndDateTime, actualEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
 
 				$stmt2 = $conn->query($sqlTwo);
 
@@ -95,6 +96,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 						<td>".$row2['statusNotes']."</td>
 						<td>".$row2['startDate']."</td>
 						<td>".$row2['desiredEndDateTime']."</td>
+						<td>".$row2['actualEndDateTime']."</td>
 						<td>  <a href='actions/editTasksUsers.php?edit=$row2[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
 						</td> </tr>";
 			    }
@@ -105,7 +107,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 				// Query for userID with the session email that we have from the session
 
-				$sqlOne = "SELECT taskId, projectId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
+				$sqlOne = "SELECT taskId, projectId, taskName, description, status, statusNotes, startDate, desiredEndDateTime,actualEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
 
 				// Prints to the table so what they have
 
@@ -129,6 +131,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 					<td>".$row['statusNotes']."</td>
 					<td>".$row['startDate']."</td>
 					<td>".$row['desiredEndDateTime']."</td>
+					<td>".$row['actualEndDateTime']."</td>
 					<td>  <a href='actions/editTasksUsers.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
 					</td> </tr>";
 				}

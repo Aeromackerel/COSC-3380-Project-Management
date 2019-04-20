@@ -71,6 +71,13 @@ $searchBool = false;
 
 		$roleIdArray = array("", "", "Manager", "Project Manager");
 
+		// Re-search for group
+
+		if ($searchBool == true)
+		{
+
+		}
+
 		// Query for initial Groups that the user is involved in
 
 		if($searchBool == false){

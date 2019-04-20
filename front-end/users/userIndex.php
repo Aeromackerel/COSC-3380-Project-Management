@@ -20,7 +20,6 @@ if (!$_SESSION['loggedin'])
 		<div class="nav">
 		   <button class="nav-hover">Menu</button>
 		   <div class="nav-links">
-				<a href="../timesheets/timesheet.php">Timesheet</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
 		</div> 
