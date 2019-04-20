@@ -28,6 +28,9 @@
  		if ($fieldsFilled == true)
  		{
  			$sqlAddGroup = "INSERT INTO GroupsUsers(employeeId, groupId) VALUES ($employeeId, $groupId)";
+
+ 			$conn->query($sqlAddGroup);
+
  			header ("Location: ../groupManagersGroupsView.php");
  		}
 
