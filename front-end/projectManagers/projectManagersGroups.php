@@ -29,9 +29,14 @@ $searchBool = false;
 	</div>
 
 
+	<a href = 'actions/addGroupsProjectManagement.php'><button type="button" name = "addGroup" class="btn btn-success float-right btn-space">Assign New Group</button></a>
+	<a href = 'actions/addGroupsMembersProjectManagement.php'><button type="button" name = "addGroupMember" class="btn btn-success float-right btn-space">Assign Group Member</button></a>
+
 <table class = "table">
 		<thead>
 			<tr>
+				<th> Belongs to Project </th>
+				<th> Belongs to Group </th>
 				<th> Group Member's Name </th>
 				<th> Group Member's Email</th>
 				<th> Group Member's Phone Number</th>
@@ -46,33 +51,39 @@ $searchBool = false;
 		<?php
 		include "../../includes/dbconnect.ini.php";
 		// Creating Enumerated types via arrays again
-		$roleIdArray = array("", "", "Manager", "Project Manager");
-		// Query for initial Groups that the user is involved in
-		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
-		$stmt = $conn->query($sqlOne);
-		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+		$roleIdArray = array("", "Employee", "Manager", "Project Manager");
+
+		// Query for projects that a project Manager is in charge of
+
+		$sqlFindProjects = "SELECT projectId, projectName FROM Projects WHERE projectManagerID = $tempUserID";
+
+		$stmtOne = $conn->query($sqlFindProjects);
+
+		while ($rowOne = $stmtOne->fetch(PDO::FETCH_ASSOC))
 		{
-		// Query for all employeeIds - given the groups that they're involved in
-		$sqlTwo = "SELECT employeeId FROM GroupsUsers WHERE groupId = $row[groupId]";
-		// Query for the information and output to the table
-		$stmt2 = $conn->query($sqlTwo);
-			// Query for all employee information given the employeeIds we queried from earlier
-			while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
+			$sqlFindGroupEmployees = "SELECT groupName, employeeId FROM Groups INNER JOIN GroupsUsers ON Groups.groupId = GroupsUsers.groupId WHERE Groups.projectId = $rowOne[projectId]";
+
+			$stmtTwo = $conn->query($sqlFindGroupEmployees);
+
+			while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
 			{
-				$sqlThree = "SELECT firstName, lastName, employeeId, email, phoneNumber, role FROM Employees WHERE Employees.employeeId = $row2[employeeId]";
-				$stmt3 = $conn->query($sqlThree);
-				while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC))
+				$sqlFindEmployeeInfo = "SELECT firstName, lastName, email, phoneNumber, role FROM Employees WHERE Employees.employeeId = $rowTwo[employeeId]";
+
+				$stmtThree = $conn->query($sqlFindEmployeeInfo);
+				while ($rowThree = $stmtThree->fetch(PDO::FETCH_ASSOC))
 				{
-					// Print to the table
-				echo "<tr><td>".$row3['firstName']." ".$row3['lastName']."</td>
-				<td>".$row3['email']."</td>
-				<td>".$row3['phoneNumber']."</td>
-				<td>".$roleIdArray[$row3['role']]."</td>
-				</tr>"
-				;
+				// Print to the table
+				echo "<tr><td>". $rowOne['projectName'] ."</td>
+				<td>".$rowTwo['groupName']."</td>
+				<td>".$rowThree['firstName']." ".$rowThree['lastName']."</td>
+				<td>".$rowThree['email']."</td>
+				<td>".$rowThree['phoneNumber']."</td>
+				<td>".$roleIdArray[$rowThree['role']]."</td>
+				</tr>";
 				}
 			}
 		}
+
 		?>
 
 

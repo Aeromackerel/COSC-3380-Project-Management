@@ -32,6 +32,7 @@ $searchBool = false;
 <table class = "table">
 		<thead>
 			<tr>
+				<th> Belongs to Project </th>
 				<th> Employee's Name </th>
 				<th> Email</th>
 				<th> Phone Number</th>
@@ -54,6 +55,13 @@ $searchBool = false;
 		{
 		// Query for all employeeIds - given the projects that they're involved in
 		$sqlTwo = "SELECT DISTINCT employeeId FROM ProjectUsers WHERE projectId = $row[projectId]";
+
+		$sqlFindProject = "SELECT projectName FROM Projects WHERE projectId = $row[projectId]";
+
+		$stmtFindProject = $conn->query($sqlFindProject);
+
+		$rowFindProject = $stmtFindProject->fetch(PDO::FETCH_ASSOC);
+
 		// Query for the information and output to the table
 		$stmt2 = $conn->query($sqlTwo);
 			// Query for all employee information given the employeeIds we queried from earlier
@@ -64,7 +72,8 @@ $searchBool = false;
 				while ($row3 = $stmt3->fetch(PDO::FETCH_ASSOC))
 				{
 					// Print to the table
-				echo "<tr><td>".$row3['firstName']." ".$row3['lastName']."</td>
+				echo "<tr><td>". $rowFindProject['projectName'] ."</td>
+				<td>".$row3['firstName']." ".$row3['lastName']."</td>
 				<td>".$row3['email']."</td>
 				<td>".$row3['phoneNumber']."</td>
 				<td>".$roleIdArray[$row3['role']]."</td>
@@ -80,9 +89,6 @@ $searchBool = false;
 
 	</tbody>
 </table>
-
-
-
 
 
 </body>
