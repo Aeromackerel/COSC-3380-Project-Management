@@ -78,13 +78,9 @@
 			$i = $row['projectId'];
 
 			// Query for projectName
-			$sqlFindprojectNames = "SELECT projectName from Projects WHERE projectId = $i";
-			$stmtFindpNames = $conn->query($sqlFindprojectNames);
-			$rowName = $stmtFindpNames->fetch(PDO::FETCH_ASSOC);
-			$proj_name = $rowName['projectName'];
 
 			// Query for Timesheet data
-			$sqlFindHours = "SELECT hours, DATEPART(weekday, date) AS weekday FROM Timesheet WHERE projectId = $i AND employeeId = $tempUserID AND DATEPART(week, date)=DATEPART(week, GETDATE())";
+			$sqlFindHours = "SELECT Timesheet.hours as hours, DATEPART(weekday, Timesheet.date) AS weekday, Projects.projectName AS pName FROM Timesheet LEFT JOIN Projects ON Timesheet.projectId=Projects.projectId WHERE Timesheet.projectId = $i AND Timesheet.employeeId = $tempUserID AND DATEPART(week, Timesheet.date)=DATEPART(week, GETDATE())";
 
 			$stmtFindHours = $conn->query($sqlFindHours);
 
@@ -96,8 +92,9 @@
 			$friHours = 0;//$rowhours['dayFive'];
 			$satHours = 0;//$rowhours['daySix'];
 
-			echo"<td>".$proj_name."</td>";
+
 			while ($rowhours = $stmtFindHours->fetch(PDO::FETCH_ASSOC)){
+				echo"<td>".$rowhours['pName']."</td>";
 				echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='";
 				if ($rowhours['weekday'] == 1){
 					$sunHours = $rowhours['hours'];
