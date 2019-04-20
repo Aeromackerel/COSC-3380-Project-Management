@@ -9,7 +9,7 @@
 				<a href="../indexRedirectory.php">Back to Index</a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 	<div id="ui-timesheet">
 		<form action="timesheet.php" method="post">
@@ -17,13 +17,13 @@
 	   <table>
 		    <tr>
 			   <th>Project</th>
+ 			   <th>Sun</th>
 			   <th>Mon</th>
 			   <th>Tue</th>
 			   <th>Wed</th>
 			   <th>Thu</th>
 			   <th>Fri</th>
 			   <th>Sat</th>
-			   <th>Sun</th>
 			   <th>Total Hours</th>
 			</tr>
 			<?php
@@ -37,11 +37,15 @@
 
 
 			// Include DB connection
-
 			include "../../includes/dbconnect.ini.php";
 
-			// So if user tries to update their hours then we'll update their timesheet
+			//get day for reference
+			$day = date('D');
+			$dayArray = array(0 => "Sun", 1 => "Mon", 2 => "Tue", 3=> "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat");
 
+			$dateIndex = array_search($day, $dayArray);
+			echo $dateIndex;
+			// So if user tries to update their hours then we'll update their timesheet
 			if (isset($_POST['update-button']))
 			{
 				$sqlFindprojectId2 = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID";
@@ -49,34 +53,19 @@
 				$stmtPID = $conn->query($sqlFindprojectId2);
 
 				while($rowPID = $stmtPID->fetch(PDO::FETCH_ASSOC))
-
 				{array_push($projectIdArray, $rowPID['projectId']);}
 
 				foreach($projectIdArray as $value)
 				{
-					$monHours = $_POST["Mon".$value];
-					$tueHours = $_POST["Tue".$value];
-					$wedHours = $_POST["Wed".$value];
-					$thuHours = $_POST["Thu".$value];
-					$friHours = $_POST["Fri".$value];
-					$satHours = $_POST["Sat".$value];
-					$sunHours = $_POST["Sun".$value];
-
+					$hours = $_POST["".$day.$value];
 					// UPDATE QUERY
 
-					$sqlUpdateHours = "UPDATE Timesheet SET dayOne = $monHours, dayTwo = $tueHours, dayThree = $wedHours, dayFour = $thuHours, dayFive = $friHours, daySix = $satHours, daySeven = $sunHours WHERE projectId = $value AND employeeId = $tempUserID";
+					$sqlUpdateHours = "UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND day = $dayIndex";
 
 					$stmtUpdateHours = $conn->query($sqlUpdateHours);
 
 				}
-
 			}
-
-
-
-
-
-				
 			echo"<tr>";
 
 			$sqlFindprojectIds = "SELECT projectId from ProjectUsers WHERE employeeId = $tempUserID";
@@ -86,68 +75,123 @@
 			while ($row = $stmtFindpIds->fetch(PDO::FETCH_ASSOC))
 			{
 
-
-		
 			$i = $row['projectId'];
 
 			// Query for projectName
-
 			$sqlFindprojectNames = "SELECT projectName from Projects WHERE projectId = $i";
-
 			$stmtFindpNames = $conn->query($sqlFindprojectNames);
-
 			$rowName = $stmtFindpNames->fetch(PDO::FETCH_ASSOC);
-
 			$proj_name = $rowName['projectName'];
 
 			// Query for Timesheet data
-
-			$sqlFindHours = "SELECT dayOne, dayTwo, dayThree, dayFour, dayFive, daySix, daySeven FROM Timesheet WHERE projectId = $i AND employeeId = $tempUserID";
+			$sqlFindHours = "SELECT hours, DATEPART(weekday, date) AS weekday FROM Timesheet WHERE projectId = $i AND employeeId = $tempUserID AND DATEPART(week, date)=DATEPART(week, GETDATE())";
 
 			$stmtFindHours = $conn->query($sqlFindHours);
 
-			$rowhours = $stmtFindHours->fetch(PDO::FETCH_ASSOC);
+			$sunHours = 0;//$rowhours['daySeven'];
+			$monHours = 0;//$rowhours['dayOne'];
+			$tueHours = 0;//$rowhours['dayTwo'];
+			$wedHours = 0;//$rowhours['dayThree'];
+			$thuHours = 0;//$rowhours['dayFour'];
+			$friHours = 0;//$rowhours['dayFive'];
+			$satHours = 0;//$rowhours['daySix'];
 
-			$monHours = $rowhours['dayOne'];
-			$tueHours = $rowhours['dayTwo'];
-			$wedHours = $rowhours['dayThree'];
-			$thuHours = $rowhours['dayFour'];
-			$friHours = $rowhours['dayFive'];
-			$satHours = $rowhours['daySix'];
-			$sunHours = $rowhours['daySeven'];
-			
-			$mon=$monHours;   //replace with hours per day from db
-			$tue=$tueHours;  //  |
-			$wed=$wedHours;   //  |
-			$thu=$thuHours;   //  v
-			$fri=$friHours;  //
-			$sat=$satHours;   //
-			$sun=$sunHours;   //
+			echo"<td>".$proj_name."</td>";
+			while ($rowhours = $stmtFindHours->fetch(PDO::FETCH_ASSOC)){
+				echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='";
+				if ($rowhours['weekday'] == 1){
+					$sunHours = $rowhours['hours'];
+					echo "".$sunHours."";
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 0)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Mon".$i."' value='";
+				if ($rowhours['weekday'] == 2) {
+					$monHours = $rowhours['hours'];
+					echo $monHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 1)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Tue".$i."' value='";
+				if ($rowhours['weekday'] == 3) {
+					$tueHours = $rowhours['hours'];
+					echo $tueHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 2)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Wed".$i."' value='";
+				if ($rowhours['weekday'] == 4) {
+					$wedHours = $rowhours['hours'];
+					echo $wedHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 3)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Thu".$i."' value='";
+				if ($rowhours['weekday'] == 5) {
+					$thuHours = $rowhours['hours'];
+					echo $thuHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 4)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Fri".$i."' value='";
+				if ($rowhours['weekday'] == 6) {
+					$friHours = $rowhours['hours'];
+					echo $friHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 5)
+					echo " disabled";
+				echo"></td>";
+				echo "<td><input style='width:30%;' type='text' name='Sat".$i."' value='";
+				if ($rowhours['weekday'] == 7) {
+					$satHours = $rowhours['hours'];
+					echo $satHours;
+				}
+				else{
+					echo "0";
+				}
+				echo "'";
+				if ($dateIndex != 6)
+					echo " disabled";
+				echo"></td>";
 
-			array_push($projectIdArray, $i);					
-			
-					
-			echo"<td>".$proj_name."</td>";  
-			echo"<td><input style='width:30%;' type='text' name='Mon".$i."' value='".$mon."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Tue".$i."' value='".$tue."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Wed".$i."' value='".$wed."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Thu".$i."' value='".$thu."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Fri".$i."' value='".$fri."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Sat".$i."' value='".$sat."'/></td>";
-			echo"<td><input style='width:30%;' type='text' name='Sun".$i."' value='".$sun."'/></td>";
-			echo"<td>".($mon+$tue+$wed+$thu+$fri+$sat+$sun)."</td>";
-					
-			echo"</tr>";
-			
+			echo "<td>".($sunHours+$monHours+$tueHours+$wedHours+$thuHours+$friHours+$satHours)."</td>";
+			echo "</tr>";
 			}
-
-
+			}
 			?>
-			
-		</table>	
+		</table>
 			</br>
 			<input class="ui-button" type="submit" name ="update-button"  style="margin-bottom:20px;"value="Update">
 		</center>
-		</form>	
+		</form>
 	</div>
 </body>
