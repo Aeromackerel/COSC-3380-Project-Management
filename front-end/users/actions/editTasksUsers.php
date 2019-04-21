@@ -24,11 +24,12 @@
  	if (isset($_POST['submitChanges']))
  	{
  		$descriptionChange = $_POST['descriptionChange'];
+ 		$statusNotesChange = $_POST['statusNotesChange'];
  		$statusChange = (int) $_POST['statusChange'];
 
  		// Add something to check if a user just started a task or not
 
- 		$queryUpdate = "UPDATE Tasks SET description = '$descriptionChange', status = $statusChange WHERE taskId = $row[taskId]";
+ 		$queryUpdate = "UPDATE Tasks SET description = '$descriptionChange', status = $statusChange, statusNotes = '$statusNotesChange' WHERE taskId = $row[taskId]";
  		$stmt = $conn->query($queryUpdate);
 
  		$buttonPressedBool = true;
@@ -72,6 +73,8 @@
 		   <input type="text" class="form-control" name ="descriptionChange" placeholder="Description Update">
 		   <small id="descriptionHint" class="form-text text-muted">Change the description of the related task</small>
 		   <input type="hidden" name = "id" value = <?php echo $row['taskId'];?>>
+		   <label for="description"> Status Notes </label>
+		   <input type="tyex" class="form-control" name ="statusNotesChange" placeholder="Status Notes Update">
 		<label class="mr-sm-2" for="inlineFormCustomSelect">Update Status</label>
 		<select class="custom-select mr-sm-2" name = "statusChange" id="inlineFormCustomSelect">
 			<option selected>Choose...</option>
