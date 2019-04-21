@@ -61,7 +61,24 @@
 					$hours = $_POST["".$day.$value];
 					// UPDATE QUERY
 
-					$sqlUpdateHours = "UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
+					$sqlUpdateHours = "MERGE
+						INTO Timesheet WITH (HOLDLOCK) AS target
+						USING (SELECT
+							$value AS projectId
+							, $tempUserID AS employeeId
+							, GETDATE() AS date) AS source
+							(projectId, employeeId, date)
+							ON (target.projectId = source.projectId
+							AND target.employeeId = source.employeeId
+							AND target.date = source.date)
+						WHEN MATCHED
+							THEN UPDATE
+								SET hours = $hours
+						WHEN NOT MATCHED
+							THEN INSERT	(projectId, employeeId, date, hours)
+								VALUES ($value, $tempUserID, GETDATE(), $hours);";
+
+					//"UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
 
 					$stmtUpdateHours = $conn->query($sqlUpdateHours);
 
