@@ -56,27 +56,27 @@
 				while($rowPID = $stmtPID->fetch(PDO::FETCH_ASSOC))
 				{array_push($projectIdArray, $rowPID['projectId']);}
 
-				foreach($projectIdArray as $value)
+				$pIDtime = array();
+				$sqlFindDate = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID AND date = GETDATE()";
+				$stmtPIDdate = $conn->query($sqlFindDate);
+
+				while($rowPIDdate = $stmtPIDdate->fetch(PDO::FETCH_ASSOC))
+				{array_push($pIDtime, $rowPIDdate['projectId']);}
+
+				$sqlUpdateHours = "";
+				foreach($pIDtime as $value)
 				{
 					$hours = $_POST["".$day.$value];
+					if (in_array($value, $projectIdArray)){
+						$sqlUpdateHours ="UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
+					}
+					else{
+						$sqlUpdateHours ="INSERT INTO Timesheet (hours, projectId, employeeId, date) VALUES ($hours, $value, $tempUserID, GETDATE())";
+					}
+
 					// UPDATE QUERY
 
-					$sqlUpdateHours = "MERGE
-						INTO Timesheet WITH (HOLDLOCK) AS target
-						USING (SELECT
-							$value AS projectId
-							, $tempUserID AS employeeId
-							, GETDATE() AS date) AS source
-							(projectId, employeeId, date)
-							ON (target.projectId = source.projectId
-							AND target.employeeId = source.employeeId
-							AND target.date = source.date)
-						WHEN MATCHED
-							THEN UPDATE
-								SET hours = $hours
-						WHEN NOT MATCHED
-							THEN INSERT	(projectId, employeeId, date, hours)
-								VALUES ($value, $tempUserID, GETDATE(), $hours);";
+					//$sqlUpdateHours =
 
 					//"UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
 
