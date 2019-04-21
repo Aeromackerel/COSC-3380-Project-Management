@@ -39,13 +39,15 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 	<table id = "tasksTable" class = "table">
 		<thead>
 			<tr>
+				<th> Under Project </th>
+				<th> Belongs to Employee </th>
 				<th> Task name </th>
 				<th> Description </th>
 				<th> Status </th>
 				<th> Status Notes </th>
 				<th> Start Date </th>
 				<th> Expected End Date </th>
-				<th></th>
+				<th> Actual End Date </th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,38 +63,62 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				{$searchBool = true;}
 			    if($searchBool == true)
 			    {
-			    $sqlTwo = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
-				$stmt2 = $conn->query($sqlTwo);
-			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
-			    {
-			    		echo "<tr>
-						<td>".$row2['taskName']."</td>
-						<td>".$row2['description']."</td>
-						<td>".$statusName[$row2['status']]."</td>
-						<td>".$row2['statusNotes']."</td>
-						<td>".$row2['startDate']."</td>
-						<td>".$row2['desiredEndDateTime']."</td>
-						<td>  <a href='actions/editTasksUsers.php?edit=$row2[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
-						</td> </tr>";
-			    }
+			    $findtask = $_POST['taskFind'];
+				$sqlOne = "SELECT projectName, Projects.projectId, employeeId FROM ProjectUsers INNER JOIN Projects ON ProjectUsers.projectId = Projects.projectId WHERE Projects.projectManagerId = $tempUserID";
+
+				$stmtOne = $conn->query($sqlOne);
+
+				while ($rowOne = $stmtOne->fetch(PDO::FETCH_ASSOC))
+				{
+					$sqlTwo = "SELECT taskName, description, status, statusNotes, startDate, desiredEndDateTime, actualEndDateTime, firstName, lastName FROM Tasks INNER JOIN Employees ON Tasks.employeeId = Employees.employeeId WHERE Tasks.employeeId = $rowOne[employeeId] AND Tasks.employeeId != $tempUserID AND Tasks.taskName LIKE '%$findtask%'";
+
+					$stmtTwo = $conn->query($sqlTwo);
+
+					while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
+					{
+						echo "<tr>
+						<td>".$rowOne['projectName']."</td>
+						<td>".$rowTwo['firstName']." ". $rowTwo['lastName'] ."</td>
+						<td>".$rowTwo['taskName']."</td>
+						<td>".$rowTwo['description']."</td>
+						<td>".$statusName[$rowTwo['status']]."</td>
+						<td>".$rowTwo['statusNotes']."</td>
+						<td>".$rowTwo['startDate']."</td>
+						<td>".$rowTwo['desiredEndDateTime']."</td>
+						<td>".$rowTwo['actualEndDateTime']."</td> 
+						</tr>";
+					}
+				}
+
 			}
 			else{
-				// Query for userID with the session email that we have from the session
-				$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
-				// Prints to the table so what they have
-				$stmt = $conn->query($sqlOne);
-				while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+				$sqlOne = "SELECT projectName, Projects.projectId, employeeId FROM ProjectUsers INNER JOIN Projects ON ProjectUsers.projectId = Projects.projectId WHERE Projects.projectManagerId = $tempUserID";
+
+				$stmtOne = $conn->query($sqlOne);
+
+				while ($rowOne = $stmtOne->fetch(PDO::FETCH_ASSOC))
 				{
-					echo "<tr>
-					<td>".$row['taskName']."</td>
-					<td>".$row['description']."</td>
-					<td>".$statusName[$row['status']]."</td>
-					<td>".$row['statusNotes']."</td>
-					<td>".$row['startDate']."</td>
-					<td>".$row['desiredEndDateTime']."</td>
-					<td>  <a href='actions/editTasksProjectManagement.php?edit=$row[taskId]><button type= button name = 'edit' class='btn btn-info'> Edit </button></a> <br>
-					</td> </tr>";
+					$sqlTwo = "SELECT taskName, description, status, statusNotes, startDate, desiredEndDateTime, actualEndDateTime, firstName, lastName FROM Tasks INNER JOIN Employees ON Tasks.employeeId = Employees.employeeId WHERE Tasks.employeeId = $rowOne[employeeId] AND Tasks.employeeId != $tempUserID";
+
+					$stmtTwo = $conn->query($sqlTwo);
+
+					while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
+					{
+						echo "<tr>
+						<td>".$rowOne['projectName']."</td>
+						<td>".$rowTwo['firstName']." ". $rowTwo['lastName'] ."</td>
+						<td>".$rowTwo['taskName']."</td>
+						<td>".$rowTwo['description']."</td>
+						<td>".$statusName[$rowTwo['status']]."</td>
+						<td>".$rowTwo['statusNotes']."</td>
+						<td>".$rowTwo['startDate']."</td>
+						<td>".$rowTwo['desiredEndDateTime']."</td>
+						<td>".$rowTwo['actualEndDateTime']."</td> 
+						</tr>";
+					}
 				}
+
+				
 			}
 			?>
 

@@ -15,10 +15,15 @@
 
  	else if (isset($_POST['submitChanges']))
  	{
+ 		$employeeId = $_POST['relatedEmployeeCreate'];
+ 		$groupId = $_POST['relatedGroupCreate'];
 
+ 		$SQLAddGroup = "INSERT INTO GroupsUsers (groupId, employeeId)
+ 		VALUES ($groupId, $employeeId)";
+
+ 		$conn->query($SQLAddGroup);
 
  		header ("Location: ../projectManagersGroups.php");
-
  	}
 
 
@@ -38,26 +43,63 @@
 	<center>
 		<form method = "post">
 		<div class="form-group">
-		<label> Group Name </label>
-		<input type="text" class="form-control" name ="groupCreate" placeholder="Group Name">
-		<br>
-		<label class="mr-sm-2" for="inlineFormCustomSelect">Belongs to Project</label>
-		<select class="custom-select mr-sm-2" name = "relatedProjectCreate" id="inlineFormCustomSelect">
+		<label class="mr-sm-2" for="inlineFormCustomSelect">Assign Employee</label>
+		<select class="custom-select mr-sm-2" name = "relatedEmployeeCreate" id="inlineFormCustomSelect">
+
+		<?php
+
+		// Including DB connection file
+
+		include "../../../includes/dbconnect.ini.php";
+
+		
+		$sqlProjectFind = "SELECT projectId FROM Projects WHERE projectManagerId = $tempUserID";
+
+		$stmtProjectFind = $conn->query($sqlProjectFind);
+
+		while ($rowFirst = $stmtProjectFind->fetch(PDO::FETCH_ASSOC))
+		{
+			$sqlEmployees = "SELECT firstName, lastName, Employees.employeeId FROM Employees INNER JOIN ProjectUsers ON Employees.employeeId = ProjectUsers.employeeId WHERE $rowFirst[projectId] = ProjectUsers.projectId";
+
+			$stmt = $conn->query($sqlEmployees);
+
+			while ($row=$stmt->fetch(PDO::FETCH_ASSOC))
+			{
+			echo '<option value="'.$row['employeeId'].'">'.$row['firstName']." ".$row['lastName'].'</option>';
+			}
+
+		}
+
+
+		?>
+
+		</select>
+
+		<label class="mr-sm-2" for="inlineFormCustomSelect">Assign to Group</label>
+		<select class="custom-select mr-sm-2" name = "relatedGroupCreate" id="inlineFormCustomSelect">
+
 		<?php
 
 		include "../../../includes/dbconnect.ini.php";
 
-		// Query for projects that a projectManager Runs
+		$sqlGroupIds = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
 
-		$sqlProjectFind = "SELECT projectId, projectName FROM Projects WHERE projectManagerId = $tempUserID";
+		$stmtTwo = $conn->query($sqlGroupIds);
 
-		$stmtProjectFind = $conn->query($sqlProjectFind);
-
-		while ($rowProjectFind = $stmtProjectFind->fetch(PDO::FETCH_ASSOC))
+		while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
 		{
-			echo "<option value =".$rowProjectFind[projectId].">".$rowProjectFind['projectName']."</option>";
+			$sqlGroups = "SELECT groupId, groupName FROM Groups WHERE groupId = $rowTwo[groupId]";
+
+			$stmtThree = $conn->query($sqlGroups);
+
+			while ($rowThree = $stmtThree->fetch(PDO::FETCH_ASSOC))
+			{
+				echo '<option value="'.$rowThree['groupId'].'">'.$rowThree['groupName'].'</option>';
+			}
 		}
+
 		?>
+
 		</select>
       	 <button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
 		 <button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>

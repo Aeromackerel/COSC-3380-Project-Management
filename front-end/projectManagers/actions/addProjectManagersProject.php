@@ -52,6 +52,8 @@
 		   <select class="custom-select mr-sm-2" name = "relatedDepartmentCreate" id="inlineFormCustomSelect">
 		   	<?php
 
+		   		 include "../../../includes/dbconnect.ini.php";
+
 		   		$sqlDepartmentFind = "SELECT departmentId, departmentName FROM Departments";
 
 		   		$stmtDepartmentFind = $conn->query($sqlDepartmentFind);
@@ -64,6 +66,7 @@
 
 		   	?>
 		   </select>
+		   
 
 		   <label for = "projectClient"> For Client </label>
 		   <input type ="text" class="form-control" name="projectClientCreate" placeholder="Project Client">

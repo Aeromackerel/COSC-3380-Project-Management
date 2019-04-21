@@ -45,7 +45,6 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 				<th> Predicted Date </th>
 				<th> Actual End Date </th>
 				<th> Project Client</th>
-				<th> Edit project </th>
 			</tr>
 		</thead>
 		<tbody>
@@ -70,7 +69,6 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 			<td>". $rowProjects['predictedEndDate'] ."</td>
 			<td>". $rowProjects['actualEndDate']."</td>
 			<td>". $rowProjects['projectClient']."</td>
-			<td></td>
 			</tr>"; 
 		}
 
