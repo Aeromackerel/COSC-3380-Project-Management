@@ -44,7 +44,8 @@
 			$dayArray = array(0 => "Sun", 1 => "Mon", 2 => "Tue", 3=> "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat");
 
 			$dateIndex = array_search($day, $dayArray);
-			echo $dateIndex;
+			$dayIndex = date('Y-m-d');
+			//echo $dateIndex;
 			// So if user tries to update their hours then we'll update their timesheet
 			if (isset($_POST['update-button']))
 			{
@@ -60,7 +61,7 @@
 					$hours = $_POST["".$day.$value];
 					// UPDATE QUERY
 
-					$sqlUpdateHours = "UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND day = $dayIndex";
+					$sqlUpdateHours = "UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
 
 					$stmtUpdateHours = $conn->query($sqlUpdateHours);
 
@@ -78,6 +79,12 @@
 			$i = $row['projectId'];
 
 			// Query for projectName
+			$sqlFindprojectNames = "SELECT projectName from Projects WHERE projectId = $i";
+			$stmtFindpNames = $conn->query($sqlFindprojectNames);
+			$rowName = $stmtFindpNames->fetch(PDO::FETCH_ASSOC);
+			$proj_name = $rowName['projectName'];
+
+			echo"<td>".$proj_name."</td>";
 
 			// Query for Timesheet data
 			$sqlFindHours = "SELECT Timesheet.hours as hours, DATEPART(weekday, Timesheet.date) AS weekday, Projects.projectName AS pName FROM Timesheet LEFT JOIN Projects ON Timesheet.projectId=Projects.projectId WHERE Timesheet.projectId = $i AND Timesheet.employeeId = $tempUserID AND DATEPART(week, Timesheet.date)=DATEPART(week, GETDATE())";
@@ -110,7 +117,7 @@
 				$projName = $rowhours['pName'];
 			}
 
-			echo"<td>".$projName."</td>";
+
 			echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='".$hoursArray[0]."' ".$disableArray[0]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Mon".$i."' value='".$hoursArray[1]."' ".$disableArray[1]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Tue".$i."' value='".$hoursArray[2]."' ".$disableArray[2]."></td>";
