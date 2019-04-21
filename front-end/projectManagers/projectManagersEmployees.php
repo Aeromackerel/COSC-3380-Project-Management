@@ -28,6 +28,8 @@ $searchBool = false;
 		</div>
 	</div>
 
+	<a href = 'actions/addEmployeesProjectManagement.php'><button type="button" name = "newEmployee" class="btn btn-success float-right btn-space">Assign New Employee</button></a>
+
 
 <table class = "table">
 		<thead>
