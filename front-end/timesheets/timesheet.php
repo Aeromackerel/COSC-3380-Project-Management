@@ -27,87 +27,106 @@
 			   <th>Total Hours</th>
 			</tr>
 			<?php
-
 			session_start();
+
+			// Hols user ID
 
 			$tempUserID = (int)$_SESSION['userID'];
 
-			// Array to hold ID
+			// Array to hold project ID
+
 			$projectIdArray = array();
 
-
 			// Include DB connection
+
 			include "../../includes/dbconnect.ini.php";
 
 			//get day for reference
+
 			$day = date('D');
+
 			$dayArray = array(0 => "Sun", 1 => "Mon", 2 => "Tue", 3=> "Wed", 4 => "Thu", 5 => "Fri", 6 => "Sat");
 
 			$dateIndex = array_search($day, $dayArray);
+
 			$dayIndex = date('Y-m-d');
-			//echo $dateIndex;
+
 			// So if user tries to update their hours then we'll update their timesheet
+
 			if (isset($_POST['update-button']))
 			{
 				$sqlFindprojectId2 = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID";
 
 				$stmtPID = $conn->query($sqlFindprojectId2);
 
+				// Push project ids into an array
 				while($rowPID = $stmtPID->fetch(PDO::FETCH_ASSOC))
 				{array_push($projectIdArray, $rowPID['projectId']);}
 
 				$pIDtime = array();
-				$sqlFindDate = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID AND date = GETDATE()";
+
+				$sqlFindDate = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID AND date = (select convert(varchar(10),getDate(),120))";
+
 				$stmtPIDdate = $conn->query($sqlFindDate);
 
 				while($rowPIDdate = $stmtPIDdate->fetch(PDO::FETCH_ASSOC))
 				{array_push($pIDtime, $rowPIDdate['projectId']);}
-
 				$sqlUpdateHours = "";
 				foreach($pIDtime as $value)
 				{
-					$hours = $_POST["".$day.$value];
+					$hours = (float)$_POST[$day.$value];
+					$value = (int)$value;
+					
 					if (in_array($value, $projectIdArray)){
-						$sqlUpdateHours ="UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
+						$sqlUpdateHours ="UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = (select convert(varchar(10),getDate(),120))";
+						echo $hours;
+						echo "Updated";
 					}
 					else{
 						$sqlUpdateHours ="INSERT INTO Timesheet (hours, projectId, employeeId, date) VALUES ($hours, $value, $tempUserID, GETDATE())";
+						echo $hours;
+						echo "Inserted";
 					}
-
 					// UPDATE QUERY
-
 					//$sqlUpdateHours =
-
 					//"UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
-
 					$stmtUpdateHours = $conn->query($sqlUpdateHours);
-
 				}
 			}
+
+			// Start the table
+
 			echo"<tr>";
 
+			// Query for ProjectId where a user's projects
+
 			$sqlFindprojectIds = "SELECT projectId from ProjectUsers WHERE employeeId = $tempUserID";
-
 			$stmtFindpIds = $conn->query($sqlFindprojectIds);
-
 			while ($row = $stmtFindpIds->fetch(PDO::FETCH_ASSOC))
 			{
 
+			// To store the projectId
+
 			$i = $row['projectId'];
 
+		
+			//echo 'Sun'.$i;
+
 			// Query for projectName
+
 			$sqlFindprojectNames = "SELECT projectName from Projects WHERE projectId = $i";
+
 			$stmtFindpNames = $conn->query($sqlFindprojectNames);
+
 			$rowName = $stmtFindpNames->fetch(PDO::FETCH_ASSOC);
+
 			$proj_name = $rowName['projectName'];
 
 			echo"<td>".$proj_name."</td>";
 
 			// Query for Timesheet data
 			$sqlFindHours = "SELECT Timesheet.hours as hours, DATEPART(weekday, Timesheet.date) AS weekday, Projects.projectName AS pName FROM Timesheet LEFT JOIN Projects ON Timesheet.projectId=Projects.projectId WHERE Timesheet.projectId = $i AND Timesheet.employeeId = $tempUserID AND DATEPART(week, Timesheet.date)=DATEPART(week, GETDATE())";
-
 			$stmtFindHours = $conn->query($sqlFindHours);
-
 			$sunHours = 0;//$rowhours['daySeven'];
 			$monHours = 0;//$rowhours['dayOne'];
 			$tueHours = 0;//$rowhours['dayTwo'];
@@ -117,9 +136,7 @@
 			$satHours = 0;//$rowhours['daySix'];
 			$hoursArray = array(0 => $sunHours, 1 => $monHours, 2 => $tueHours, 3 => $wedHours, 4 => $thuHours, 5 => $friHours, 6 => $satHours);
 			$disableArray = array();
-
 			$projName = "";
-
 			foreach ($hoursArray as $key => $value) {
 				if ($key == $dateIndex){
 					$disableArray[$key] = "";
@@ -128,13 +145,10 @@
 					$disableArray[$key] = "disabled";
 				}
 			}
-
 			while ($rowhours = $stmtFindHours->fetch(PDO::FETCH_ASSOC)){
 				$hoursArray[$rowhours['weekday']-1] = $rowhours['hours'];
 				$projName = $rowhours['pName'];
 			}
-
-
 			echo "<td><input style='width:30%;' type='text' name='Sun".$i."' value='".$hoursArray[0]."' ".$disableArray[0]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Mon".$i."' value='".$hoursArray[1]."' ".$disableArray[1]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Tue".$i."' value='".$hoursArray[2]."' ".$disableArray[2]."></td>";
@@ -142,11 +156,9 @@
 			echo "<td><input style='width:30%;' type='text' name='Thu".$i."' value='".$hoursArray[4]."' ".$disableArray[4]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Fri".$i."' value='".$hoursArray[5]."' ".$disableArray[5]."></td>";
 			echo "<td><input style='width:30%;' type='text' name='Sat".$i."' value='".$hoursArray[6]."' ".$disableArray[6]."></td>";
-
 			echo "<td>".array_sum($hoursArray)."</td>";
 			echo "</tr>";
 			}
-
 			?>
 		</table>
 			</br>
