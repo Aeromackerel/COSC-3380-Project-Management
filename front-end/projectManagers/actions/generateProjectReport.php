@@ -8,6 +8,9 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 $tempUserID = (int)$_SESSION['userID'];
 $roleID = (int)$_SESSION['roleID'];
 $projectId = (int)$_GET['report'];
+
+$from = $_GET['from'];
+$to = $_GET['to'];
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
 //total Hours
@@ -94,7 +97,7 @@ chart.render();
 		$sqlProjectNameQuery = "SELECT projectName FROM Projects WHERE projectId = $projectId";
 		$stmt = $conn->query($sqlProjectNameQuery);
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
+		echo "<center><p> Project Hours Report on $row[projectName] from $from to $to </p></center>";
 		?>
 
 		<center> <label> Total Hours put into Project </label> </center>
