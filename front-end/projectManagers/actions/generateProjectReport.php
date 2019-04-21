@@ -11,7 +11,7 @@ $projectId = (int)$_GET['report'];
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
 //total Hours
-$sqlTotalHoursQuery = "SELECT SUM(weeklyHoursTotal) as allHours FROM Timesheet WHERE projectId = $projectId";
+$sqlTotalHoursQuery = "SELECT SUM(hours) as allHours FROM Timesheet WHERE projectId = $projectId";
 $stmt6 = $conn->query($sqlTotalHoursQuery);
 $row6 = $stmt6->fetch(PDO::FETCH_ASSOC);
 $totalHours = $row6['allHours'];
