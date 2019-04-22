@@ -40,7 +40,7 @@
 
  		echo $row2[projectId];
 
- 		$queryCost = "UPDATE ProjectCosts SET taskCosts = taskCosts + $costUpdate WHERE projectId = $row2[projectId]";
+ 		$queryCost = "UPDATE ProjectCosts SET tasksCosts = tasksCosts + $costUpdate WHERE projectId = $row2[projectId]";
  		$conn->query($queryCost);
 
  		$buttonPressedBool = true;
