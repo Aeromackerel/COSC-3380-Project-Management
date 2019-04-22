@@ -32,7 +32,7 @@ $searchBool = false;
 	<center>
 	<form method = "post">
 	<div class = "form-row align-items-center">
-		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for Tasks">
+		<input type="text" class="form-control2" name ="taskFind" placeholder="Search for specfic Group">
  		<button type = "submit" name = "searchTask" class="btn btn-info">search</button> 
  	</div>
  	</form>
@@ -45,6 +45,7 @@ $searchBool = false;
 <table class = "table">
 		<thead>
 			<tr>
+				<th> Group Name </th>
 				<th> Related to Project </th>
 				<th> Group Member's Name </th>
 				<th> Group Member's Email</th>
@@ -64,50 +65,46 @@ $searchBool = false;
 
 		if (isset($_POST['searchTask']))
 		{
-			$searchBool = true;
+		$searchBool = true;
 
+		$searchFor = $_POST['taskFind'];
 
-			$searchGroupMember = $_POST['taskFind'];
+		$sqlFindGroups = "SELECT groupId, groupName FROM Groups WHERE groupName LIKE '%$searchFor%' AND groupManagerId = $tempUserID";
 
-			echo $searchGroupMember;
+		$stmtFindGroups = $conn->query($sqlFindGroups);
 
-			$sqlOneV2 = "SELECT groupName, Groups.groupId FROM Groups INNER JOIN GroupsUsers ON Groups.groupId = GroupsUsers.groupId WHERE employeeId = $tempUserID";
+		while ($rowFindGroups = $stmtFindGroups->fetch(PDO::FETCH_ASSOC))
+		{
+			$sqlFindEmployees = "SELECT Employees.employeeId, firstName, lastName, email, phoneNumber, role FROM Employees INNER JOIN GroupsUsers ON Employees.employeeId = GroupsUsers.employeeID WHERE GroupsUsers.groupId = $rowFindGroups[groupId]";
 
-			$stmtOne = $conn->query($sqlOneV2);
+			$stmtFindEmployees = $conn->query($sqlFindEmployees);
 
-			while ($rowOne = $stmtOne->fetch(PDO::FETCH_ASSOC))
+			while ($rowFindEmployees = $stmtFindEmployees->fetch(PDO::FETCH_ASSOC))
 			{
-				$sqlTwoV2 = "SELECT Employees.employeeId, firstName, lastName, email, phoneNumber, role FROM Employees INNER JOIN GroupsUsers ON Employees.employeeId = GroupsUsers.employeeId WHERE
-				GroupsUsers.employeeId != $tempUserID AND GroupsUsers.groupId = $rowOne[groupId]";
+				$sqlFindProjects = "SELECT projectName FROM Projects INNER JOIN ProjectUsers ON ProjectUsers.employeeId = $rowFindEmployees[employeeId]";
 
-				$stmtTwo = $conn->query($sqlTwoV2);
+				$stmtFindProjects = $conn->query($sqlFindProjects);
 
-				while ($rowTwo = $stmtTwo->fetch(PDO::FETCH_ASSOC))
-				{
+				$rowFindProjects = $stmtFindProjects->fetch(PDO::FETCH_ASSOC);
 
-					$sqlThreeV2 = "SELECT projectName FROM Projects INNER JOIN ProjectUsers ON Projects.projectId = ProjectUsers.projectId INNER JOIN GroupsUsers ON GroupsUsers.groupId = $rowOne[groupId] WHERE ProjectUsers.employeeId = $rowTwo[employeeId]";
-
-					$stmtThree = $conn->query($sqlThreeV2);
-
-					while ($rowThree = $stmtThree->fetch(PDO::FETCH_ASSOC))
-					{
-					echo "<tr><td>".$rowThree['projectName']."</td>
-					<td>".$rowTwo['firstName']." ".$rowTwo['lastName']."</td>
-					<td>".$rowTwo['email']."</td>
-					<td>".$rowTwo['phoneNumber']."</td>
-					<td>".$roleIdArray[$rowTwo['role']]."</td>
-					</tr>";
-					}
-
-				}
+				echo "<tr><td>".$rowFindGroups['groupName']."</td>
+				<td>".$rowFindProjects['projectName']."</td>
+				<td>".$rowFindEmployees['firstName']." ".$rowFindEmployees['lastName']."</td>
+				<td>".$rowFindEmployees['email']."</td>
+				<td>".$rowFindEmployees['phoneNumber']."</td>
+				<td>".$roleIdArray[$rowFindEmployees['role']]."</td>
+				</tr>"
+				;
 
 			}
 
+
 		}
+	}
 
 		else if ($searchBool == false){
 		// Query for initial Groups that the user is involved in
-		$sqlOne = "SELECT groupId FROM GroupsUsers WHERE employeeId = $tempUserID";
+		$sqlOne = "SELECT Groups.groupId, groupName FROM Groups INNER JOIN GroupsUsers ON Groups.groupId = GroupsUsers.groupId WHERE employeeId = $tempUserID";
 		$stmt = $conn->query($sqlOne);
 		while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
@@ -130,7 +127,8 @@ $searchBool = false;
 				$row4 = $stmt4->fetch(PDO::FETCH_ASSOC);
 
 				// Print to the table
-				echo "<tr><td>".$row4['projectName']."</td>
+				echo "<tr><td>".$row['groupName']."</td>
+				<td>".$row4['projectName']."</td>
 				<td>".$row3['firstName']." ".$row3['lastName']."</td>
 				<td>".$row3['email']."</td>
 				<td>".$row3['phoneNumber']."</td>

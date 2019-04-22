@@ -27,7 +27,7 @@
 
  		if ($fieldsFilled == true)
  		{
- 			$sqlAddGroup = "INSERT INTO GroupsUsers(employeeId, groupId) VALUES ($employeeId, $groupId)";
+ 			$sqlAddGroup = "IF NOT EXISTS(SELECT * FROM GroupsUsers WHERE employeeId = $employeeId AND groupId = $groupId)INSERT INTO GroupsUsers(employeeId, groupId) VALUES ($employeeId, $groupId)";
 
  			$conn->query($sqlAddGroup);
 
