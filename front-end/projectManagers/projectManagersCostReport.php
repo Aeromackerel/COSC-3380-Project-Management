@@ -7,6 +7,8 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
 
 $tempUserID = $_SESSION['userID'];
+$roleID = (int)$_SESSION['roleID'];
+
 
 // Takes them back to the index
 
@@ -23,7 +25,7 @@ else if (isset($_POST['submit']))
 ?>
 
 <!DOCTYPE HTML>
-<title>Project Hours Report</title>
+<title>Project Costs Report</title>
 <link rel="stylesheet"type="text/css"href="../users/bootstrap.css">
 <link rel="stylesheet"type="text/css"href="../style.css">
 <body>
@@ -38,7 +40,7 @@ else if (isset($_POST['submit']))
 	</div>
 	<form method = "post">
 	<div id = "login-container" class = "ui-container">
-		<center><p> Project Hours Report </p></center>
+		<center><p> Project Costs Report </p></center>
 		<center><label class="mr-sm-2" for="inlineFormCustomSelect">Project Name</label></center>
 		<select class="custom-select mr-sm-2" name = "relatedProjectGen" id="inlineFormCustomSelect">
 
@@ -76,18 +78,18 @@ else if (isset($_POST['submit']))
 			}
 
 
-			?>
-
-      	</select>
-      	<center>
-					<label for = "fromDate"> From: </label>
-	 		   <input type = "date" class = "form-control" name= "fromDateCreate" placeholder = "2019-05-01">
-			 </center>
-			 <center>
-				 <label for = "toDate"> To: </label>
+			?>	
+		</select>
+      		<center>
+				<label for = "fromDate">  From:   </label>
+	 		   	<input type = "date" class = "form-control" name= "fromDateCreate" placeholder = "2019-05-01">
+			</center>
+			<center>
+				<label for = "toDate">  To:  </label>
 				<input type = "date" class = "form-control" name= "toDateCreate" placeholder = "2019-05-01">
 			</center>
-			 <center>
+			 
+		<center>
       	<button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
 		<button type="submit" name = "submit" class="btn btn-primary btn-space2">Submit</button>
 		</center>
