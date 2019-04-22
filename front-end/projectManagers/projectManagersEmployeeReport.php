@@ -11,7 +11,9 @@ $tempUserID = $_SESSION['userID'];
 if (isset($_POST['goBack']))
 {header ("Location: projectManagersIndex.php");}
 else if (isset($_POST['submit']))
-{header ("Location: actions/generateEmployeeReport.php?report=$_POST[relatedEmployeeGen]&from=$_POST[fromDateCreate]&to=$_POST[toDateCreate]");}
+{
+	header ("Location: actions/generateEmployeeReport.php?report=$_POST[relatedEmployeeGen]&from=$_POST[fromDateCreate]&to=$_POST[toDateCreate]");
+}
 
 ?>
 
@@ -58,7 +60,7 @@ else if (isset($_POST['submit']))
 						$projectId = $rowProject['projectId'];
 						$projectName = $rowProject['projectName'];
 						$employeeId = $rowProject['employeeId'];
-						 echo '<option value="'.$projectId.'">'.$projectName." - ".$eFirstName. " ". $eLastName.'</option>';
+						 echo '<option value="'.$projectId.' '.$employeeId.'">'.$projectName." - ".$eFirstName. " ". $eLastName.'</option>';
 
 					}
 				}
