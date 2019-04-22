@@ -8,10 +8,15 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 $tempUserID = (int)$_SESSION['userID'];
 $roleID = (int)$_SESSION['roleID'];
 $projectId = (int)$_GET['report'];
+
+//post Vars
+$from = $_GET['from'];
+$to = $_GET['to'];
+
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
 //total Hours
-$sqlTotalHoursQuery = "SELECT SUM(weeklyHoursTotal) as allHours FROM Timesheet WHERE projectId = $projectId";
+$sqlTotalHoursQuery = "SELECT SUM(hours) as allHours FROM Timesheet WHERE projectId = $projectId";
 $stmt6 = $conn->query($sqlTotalHoursQuery);
 $row6 = $stmt6->fetch(PDO::FETCH_ASSOC);
 $totalHours = $row6['allHours'];
@@ -94,7 +99,7 @@ chart.render();
 		$sqlProjectNameQuery = "SELECT projectName FROM Projects WHERE projectId = $projectId";
 		$stmt = $conn->query($sqlProjectNameQuery);
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
+		echo "<center><p> Project Hours Report on $row[projectName] from $from to $to </p></center>"
 		?>
 
 		<center> <label> Total Hours put into Project </label> </center>

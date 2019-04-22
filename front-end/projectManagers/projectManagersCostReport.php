@@ -3,7 +3,7 @@
 <?php
 session_start();
 
-if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3) 
+if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 {header ("Location: ../login.php");}
 
 $tempUserID = $_SESSION['userID'];
@@ -16,7 +16,7 @@ if (isset($_POST['goBack']))
 // If submit - then we take the user to another page to generate a Report on the given project ID
 
 else if (isset($_POST['submit']))
-{header ("Location: actions/generateProjectCostsReport.php?report=$_POST[relatedProjectGen]");}
+{header ("Location: actions/generateProjectCostsReport.php?report=$_POST[relatedProjectGen]&from=$_POST[fromDateCreate]&to=$_POST[toDateCreate]");}
 
 
 
@@ -34,7 +34,7 @@ else if (isset($_POST['submit']))
 				<a href="projectManagersIndex.php"> Back to Index </a>
 				<a href="../actionLogOut.php">Sign out</a>
 			</div>
-		</div> 
+		</div>
 	</div>
 	<form method = "post">
 	<div id = "login-container" class = "ui-container">
@@ -80,6 +80,14 @@ else if (isset($_POST['submit']))
 
       	</select>
       	<center>
+					<label for = "fromDate"> From: </label>
+	 		   <input type = "date" class = "form-control" name= "fromDateCreate" placeholder = "2019-05-01">
+			 </center>
+			 <center>
+				 <label for = "toDate"> To: </label>
+				<input type = "date" class = "form-control" name= "toDateCreate" placeholder = "2019-05-01">
+			</center>
+			 <center>
       	<button type="submit" name = "goBack" class="btn btn-secondary btn-space2">Back</button>
 		<button type="submit" name = "submit" class="btn btn-primary btn-space2">Submit</button>
 		</center>
