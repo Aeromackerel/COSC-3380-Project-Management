@@ -10,10 +10,22 @@ if (!$_SESSION['loggedin'] || $_SESSION['roleID'] != 3)
 
 $tempUserID = (int)$_SESSION['userID'];
 $roleID = (int)$_SESSION['roleID'];
-
 $projectId = (int)$_GET['report'];
-
-
+$from = $_GET['from'];
+$to = $_GET['to'];
+// Include DB Connection
+include "../../../includes/dbconnect.ini.php";
+//Total Budget
+$sqlTotalBudgetQuery = "SELECT totalBudget FROM ProjectCosts";
+$stmt1 = $conn->query($sqlTotalBudgetQuery);
+$row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
+$budgetTotal = $row1['totalBudget'];
+//Total Costs
+//-----current issue is with the sql statement. Just need to add both columns and spit it out`
+$sqlTotalCostsQuery = "SELECT tasksCosts + wagesCosts as totalCost From ProjectCosts";
+$stmt3 = $conn->query($sqlTotalCostsQuery);
+$row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
+$costsTotal = $row3['totalCost'];
 ?>
 
 <!----- HTML SECTION ----->
@@ -47,16 +59,23 @@ $projectId = (int)$_GET['report'];
 
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	echo "<center><p> Project Hours Report on $row[projectName] </p></center>"
+	echo "<center><p> Project Costs Report on $row[projectName] $from to $to </p></center>"
 
 	?>
 
 	<center> <label> Total Budget </label> </center>
-
-	<center> <label> Maintainence Costs </label> </center>
+	<center>
+		<?php 
+			echo "<p>".$budgetTotal."</p>";
+		?>
+	</center>
 
 	<center> <label> Total Costs </label> </center>
-
+	<center>
+		<?php 
+			echo "<p>".$costsTotal."</p>";
+		?>
+	</center>
 	</div>
 
 </body>
