@@ -26,7 +26,7 @@ if (empty($eventName) || empty($description) || empty($location) || empty($endDa
 if ($fieldsFilled == true)
 {
     $sqlCreateEvent = "INSERT INTO Events(eventName, startDateTime, endDateTime, locationEvent, descriptionEvent, deleteFlagStatus)
-  VALUES('$eventName', $startDate, $endDate, '$location', '$description', 0)";
+  VALUES('$eventName', '$startDate', '$endDate', '$location', '$description', 0)";
 $stmt = $conn->query($sqlCreateEvent);
 
 $sqlEventIdCreated = $conn->lastInsertId();
