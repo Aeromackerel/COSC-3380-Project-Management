@@ -14,15 +14,19 @@
  	if (isset($_GET['edit']))
  	{
  		$id = (int)$_GET['edit'];
- 		$query = "SELECT taskId, Description, status FROM Tasks WHERE taskId = $id";
+ 		$query = "SELECT taskId, description, status, statusNotes FROM Tasks WHERE taskId = $id";
  		$stmt = $conn->query($query);
  		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $statusSelectArray = array(1 => "", 2 => "", 3 => "", 4 => "", 5 => "");
+    $statusSelectArray[$row['status']] = "selected";
  	}
 
  	// Update the table in SQL with inputted information - cast int to make sure no errors
 
  	if (isset($_POST['submitChanges']))
  	{
+
  		$descriptionChange = $_POST['descriptionChange'];
  		$statusNotesChange = $_POST['statusNotesChange'];
  		$statusChange = (int) $_POST['statusChange'];
@@ -81,21 +85,21 @@
 		<form method = "post">
 		 <div class="form-group">
 		   <label for="description">Description</label>
-		   <input type="text" class="form-control" name ="descriptionChange" placeholder="Description Update">
+		   <input type="text" class="form-control" name ="descriptionChange" value="<?php echo $row['description'];?>">
 		   <small id="descriptionHint" class="form-text text-muted">Change the description of the related task</small>
 		   <input type="hidden" name = "id" value = <?php echo $row['taskId'];?>>
 		   <label for="description"> Status Notes </label>
-		   <input type="tyex" class="form-control" name ="statusNotesChange" placeholder="Status Notes Update">
+		   <input type="tyex" class="form-control" name ="statusNotesChange" value= "<?php echo $row['statusNotes'];?>">
 		  <label> Cost update </label>
 		<input type="number" step = "any" class="form-control" name ="costChange" placeholder="Cost Update">
 		<label class="mr-sm-2" for="inlineFormCustomSelect">Update Status</label>
 		<select class="custom-select mr-sm-2" name = "statusChange" id="inlineFormCustomSelect" class = "form-control">
 			<option selected>Choose...</option>
-        	<option value=1> No Progress</option>
-        	<option value=2> Early Stages</option>
-        	<option value=3> In Progress</option>
-        	<option value=4> Almost Finished </option>
-        	<option value=5> Finished</option>
+        	<option value=1 <?php echo $statusSelectArray[1];?>> No Progress</option>
+        	<option value=2 <?php echo $statusSelectArray[2];?>> Early Stages</option>
+        	<option value=3 <?php echo $statusSelectArray[3];?>> In Progress</option>
+        	<option value=4 <?php echo $statusSelectArray[4];?>> Almost Finished </option>
+        	<option value=5 <?php echo $statusSelectArray[5];?>> Finished</option>
       	</select>
       	 <button type ="submit" name ="goBack" class = "btn btn-secondary btn-space2"> Back </button>
 		 <button type="submit" name = "submitChanges" class="btn btn-primary btn-space2">Submit</button>
