@@ -71,12 +71,6 @@ $searchBool = false;
 
 		$roleIdArray = array("", "", "Manager", "Project Manager");
 
-		// Re-search for group
-
-		if ($searchBool == true)
-		{
-
-		}
 
 		// Query for initial Groups that the user is involved in
 
@@ -143,7 +137,48 @@ $searchBool = false;
 	// Else if the search bool is true - we re-search - Allow for users to re-search for Group name/Employee name/email
 	else if ($searchBool == true)
 	{
-		$searchFor = $_POST['searchGroup'];
+		$searchFor = $_POST['groupFind'];
+
+		$sqlFindGroups = "SELECT groupId, groupName FROM Groups WHERE groupName LIKE '%$searchFor%'";
+
+		$stmtFindGroups = $conn->query($sqlFindGroups);
+
+		while ($rowFindGroups = $stmtFindGroups->fetch(PDO::FETCH_ASSOC))
+		{
+			$sqlFindEmployees = "SELECT Employees.employeeId, firstName, lastName, email, phoneNumber, role FROM Employees INNER JOIN GroupsUsers ON Employees.employeeId = GroupsUsers.employeeID WHERE GroupsUsers.groupId = $rowFindGroups[groupId]";
+
+			$stmtFindEmployees = $conn->query($sqlFindEmployees);
+
+			while ($rowFindEmployees = $stmtFindEmployees->fetch(PDO::FETCH_ASSOC))
+			{
+				$sqlFindProjects = "SELECT projectName FROM Projects INNER JOIN ProjectUsers ON ProjectUsers.employeeId = $rowFindEmployees[employeeId]";
+
+				$stmtFindProjects = $conn->query($sqlFindProjects);
+
+				$rowFindProjects = $stmtFindProjects->fetch(PDO::FETCH_ASSOC);
+
+				echo "<tr><td>".$rowFindGroups['groupName']."</td>
+				<td>".$rowFindProjects['projectName']."</td>
+				<td>".$rowFindEmployees['firstName']." ".$rowFindEmployees['lastName']."</td>
+				<td>".$rowFindEmployees['email']."</td>
+				<td>".$rowFindEmployees['phoneNumber']."</td>
+				<td>".$roleIdArray[$rowFindEmployees['role']]."</td>
+				</tr>"
+				;
+
+			}
+
+		}
+
+		
+
+
+
+
+
+
+
+
 
 
 
@@ -152,14 +187,6 @@ $searchBool = false;
 
 
 	}
-
-
-
-
-
-
-
-
 		?>
 
 
