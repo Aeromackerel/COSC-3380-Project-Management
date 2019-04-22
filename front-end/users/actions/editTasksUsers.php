@@ -26,11 +26,22 @@
  		$descriptionChange = $_POST['descriptionChange'];
  		$statusNotesChange = $_POST['statusNotesChange'];
  		$statusChange = (int) $_POST['statusChange'];
+ 		$costUpdate = (float) $_POST['costChange'];
 
  		// Add something to check if a user just started a task or not
 
  		$queryUpdate = "UPDATE Tasks SET description = '$descriptionChange', status = $statusChange, statusNotes = '$statusNotesChange' WHERE taskId = $row[taskId]";
  		$stmt = $conn->query($queryUpdate);
+
+ 		$queryTaskProject = "SELECT projectId FROM Tasks WHERE taskId = $row[taskId]";
+ 		$stmt2 = $conn->query($queryTaskProject);
+
+ 		$row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+ 		echo $row2[projectId];
+
+ 		$queryCost = "UPDATE ProjectCosts SET totalCosts = totalCosts + $costUpdate WHERE projectId = $row2[projectId]";
+ 		$conn->query($queryCost);
 
  		$buttonPressedBool = true;
 
@@ -75,8 +86,10 @@
 		   <input type="hidden" name = "id" value = <?php echo $row['taskId'];?>>
 		   <label for="description"> Status Notes </label>
 		   <input type="tyex" class="form-control" name ="statusNotesChange" placeholder="Status Notes Update">
+		  <label> Cost update </label>
+		<input type="number" step = "any" class="form-control" name ="costChange" placeholder="Cost Update">
 		<label class="mr-sm-2" for="inlineFormCustomSelect">Update Status</label>
-		<select class="custom-select mr-sm-2" name = "statusChange" id="inlineFormCustomSelect">
+		<select class="custom-select mr-sm-2" name = "statusChange" id="inlineFormCustomSelect" class = "form-control">
 			<option selected>Choose...</option>
         	<option value=1> No Progress</option>
         	<option value=2> Early Stages</option>
