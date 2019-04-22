@@ -239,9 +239,10 @@ a{color:#a0a0a0;}
 }
 #chartContainerContainer{
 	background-color:#ffffff;
-	width:70%;
+	width:40%;
 	margin:auto;
 	margin-top:40px;
-   padding:20px;
-  border-radius:25px 25px 0px 0px;
+	padding:20px;
+	border-radius:25px;
+	padding-bottom:390px;
 }
