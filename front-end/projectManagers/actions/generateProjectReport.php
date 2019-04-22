@@ -16,29 +16,31 @@ $to = $_GET['to'];
 // Include DB Connection
 include "../../../includes/dbconnect.ini.php";
 //total Hours
-$sqlTotalHoursQuery = "SELECT SUM(hours) as allHours FROM Timesheet WHERE projectId = $projectId";
+echo $from;
+echo gettype($to);
+$sqlTotalHoursQuery = "SELECT SUM(hours) as allHours FROM Timesheet WHERE projectId = $projectId AND date BETWEEN CAST($from AS DATE) AND CAST($to AS DATE)";
 $stmt6 = $conn->query($sqlTotalHoursQuery);
 $row6 = $stmt6->fetch(PDO::FETCH_ASSOC);
 $totalHours = $row6['allHours'];
 //total tasks
-$sqlTotalProjectTasksQuery = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId";
+$sqlTotalProjectTasksQuery = "SELECT COUNT(taskId) as totalTasks FROM Tasks WHERE projectId = $projectId AND CAST(date AS int) BETWEEN CAST($from AS int) AND CAST($to AS int)";
 $stmt2 = $conn->query($sqlTotalProjectTasksQuery);
 $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
 $totalTasks = $row2['totalTasks'];
 //tasks completed
 $completeStatus=5;
-$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as completedTasks FROM Tasks WHERE projectId = $projectId AND status = $completeStatus";
+$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as completedTasks FROM Tasks WHERE projectId = $projectId AND status = $completeStatus AND CAST(date AS int) BETWEEN CAST($from AS int) AND CAST($to AS int)";
 $stmt3 = $conn->query($sqlProjectTasksCompletedQuery);
 $row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
 $tasksCompleted = $row3['completedTasks'];
 //tasks in progress
-$sqlProjectTasksInProgressQuery = "SELECT COUNT(taskId) as progressTasks FROM Tasks WHERE projectId = $projectId AND (status = 2 OR status = 3 OR status = 4)";
+$sqlProjectTasksInProgressQuery = "SELECT COUNT(taskId) as progressTasks FROM Tasks WHERE projectId = $projectId AND (status = 2 OR status = 3 OR status = 4) AND CAST(date AS int) BETWEEN CAST($from AS int) AND CAST($to AS int)";
 $stmt4 = $conn->query($sqlProjectTasksInProgressQuery);
 $row4 = $stmt4->fetch(PDO::FETCH_ASSOC);
 $tasksInProgress = $row4['progressTasks'];
 //tasks not started
 $notStartedStatus=1;
-$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as notStartedTasks FROM Tasks WHERE projectId = $projectId AND status = $notStartedStatus";
+$sqlProjectTasksCompletedQuery = "SELECT COUNT(taskId) as notStartedTasks FROM Tasks WHERE projectId = $projectId AND status = $notStartedStatus AND CAST(date AS int) BETWEEN CAST($from AS int) AND CAST($to AS int)";
 $stmt5 = $conn->query($sqlProjectTasksCompletedQuery);
 $row5 = $stmt5->fetch(PDO::FETCH_ASSOC);
 $tasksNotStarted = $row5['notStartedTasks'];
