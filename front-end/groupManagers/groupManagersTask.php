@@ -48,6 +48,7 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 	<table id = "tasksTable" class = "table">
 		<thead>
 			<tr>
+				<th> Related to Project </th>
 				<th> Task name </th>
 				<th> Description </th>
 				<th> Status </th>
@@ -76,13 +77,13 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 			    if($searchBool == true)
 			    {
-			    $sqlTwo = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
+			    $sqlTwo = "SELECT taskId, projectName, taskName, description, status, statusNotes, Tasks.startDate, Tasks.desiredEndDateTime FROM Tasks INNER JOIN Projects ON Tasks.projectId = Projects.projectId WHERE employeeId = $tempUserID AND taskName LIKE '%$_POST[taskFind]%'";
 
 				$stmt2 = $conn->query($sqlTwo);
 
 			    while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC))
 			    {
-			    		echo "<tr>
+			    		echo "<tr><td>".$row2['projectName']."</td>
 						<td>".$row2['taskName']."</td>
 						<td>".$row2['description']."</td>
 						<td>".$statusName[$row2['status']]."</td>
@@ -99,14 +100,14 @@ $statusName = array("", "No Progress", "Early Stages", "In Progress", "Almost Fi
 
 				// Query for userID with the session email that we have from the session
 
-				$sqlOne = "SELECT taskId, taskName, description, status, statusNotes, startDate, desiredEndDateTime FROM Tasks WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
+				$sqlOne = "SELECT taskId, projectName, taskName, description, status, statusNotes, Tasks.startDate, Tasks.desiredEndDateTime FROM Tasks INNER JOIN Projects ON Tasks.projectId = Projects.projectId WHERE employeeId = $tempUserID ORDER BY desiredEndDateTime";
 
 				// Prints to the table so what they have
 
 				$stmt = $conn->query($sqlOne);
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 				{
-					echo "<tr>
+					echo "<tr><td>".$row['projectName']."</td>
 					<td>".$row['taskName']."</td>
 					<td>".$row['description']."</td>
 					<td>".$statusName[$row['status']]."</td>
