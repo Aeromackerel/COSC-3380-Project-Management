@@ -140,7 +140,7 @@ chart.render();
 
 	</div>
 	<div id="chartContainerContainer">
-	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+	<div id="chartContainer" style="height: 370x; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	</div>
 
