@@ -59,6 +59,7 @@ $dataPoints = array(
 <script>
 window.onload = function() {
 var chart = new CanvasJS.Chart("chartContainer", {
+	backgroundColor:"#00000000",
 	animationEnabled: true,
 	title: {
 		text: "Check me out fam..."
@@ -138,9 +139,10 @@ chart.render();
 
 
 	</div>
+	<div id="chartContainerContainer">
 	<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
+	</div>
 
 </body>
 </HTML>
