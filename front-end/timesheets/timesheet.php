@@ -55,43 +55,28 @@
 
 			if (isset($_POST['update-button']))
 			{
-				$sqlFindprojectId2 = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID";
+				$sqlFindprojectId2 = "SELECT projectId FROM ProjectUsers WHERE employeeId = $tempUserID";
 
-				$stmtPID = $conn->query($sqlFindprojectId2);
+				$stmtFindproject2 = $conn->query($sqlFindprojectId2);
 
-				// Push project ids into an array
-				while($rowPID = $stmtPID->fetch(PDO::FETCH_ASSOC))
-				{array_push($projectIdArray, $rowPID['projectId']);}
-
-				$pIDtime = array();
-
-				$sqlFindDate = "SELECT projectId FROM Timesheet WHERE employeeId = $tempUserID AND date = (select convert(varchar(10),getDate(),120))";
-
-				$stmtPIDdate = $conn->query($sqlFindDate);
-
-				while($rowPIDdate = $stmtPIDdate->fetch(PDO::FETCH_ASSOC))
-				{array_push($pIDtime, $rowPIDdate['projectId']);}
-				$sqlUpdateHours = "";
-				foreach($pIDtime as $value)
+				while ($rowFindproject2 = $stmtFindproject2->fetch(PDO::FETCH_ASSOC))
 				{
-					$hours = (float)$_POST[$day.$value];
-					$value = (int)$value;
-					
-					if (in_array($value, $projectIdArray)){
-						$sqlUpdateHours ="UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = (select convert(varchar(10),getDate(),120))";
-						echo $hours;
-						echo "Updated";
-					}
-					else{
-						$sqlUpdateHours ="INSERT INTO Timesheet (hours, projectId, employeeId, date) VALUES ($hours, $value, $tempUserID, GETDATE())";
-						echo $hours;
-						echo "Inserted";
-					}
-					// UPDATE QUERY
-					//$sqlUpdateHours =
-					//"UPDATE Timesheet SET hours=$hours WHERE projectId = $value AND employeeId = $tempUserID AND date = GETDATE()";
-					$stmtUpdateHours = $conn->query($sqlUpdateHours);
+					$hours = (float)$_POST[$day.$rowFindproject2['projectId']];
+
+					$projectId = $rowFindproject2['projectId'];
+
+					$sqlTimeSheet = "UPDATE Timesheet SET hours = $hours WHERE employeeId = $tempUserID AND projectId = $projectId AND date = (select convert(varchar(10),getDate(),120))";
+
+					$conn->query($sqlTimeSheet);
+
+
+
+					$sqlTimeSheet = "IF NOT EXISTS (SELECT * FROM Timesheet WHERE employeeId = $tempUserID AND date = (select convert(varchar(10),getDate(),120)) AND projectId = $projectId) INSERT INTO Timesheet(projectId, employeeId, hours, date)
+					VALUES($projectId, $tempUserID, $hours, (select convert(varchar(10),getDate(),120)))";
+
+					$conn->query($sqlTimeSheet);
 				}
+
 			}
 
 			// Start the table
