@@ -20,7 +20,7 @@ Description: web-based application meant to streamline contemporary problems wit
 
 6) Log in using either 
 email : genUser@gmail.com	password : mango90 (General Employee ACCESS)
-email : groupManager@gmail.com password : 123 (Group Manager ACCESS)
+email : groupManager@gmail.com password : 12345(Group Manager ACCESS)
 email : projectManager@gmail.com password: 12345 (Project Manager ACCESS)
 
 If you're having problems finding driver
